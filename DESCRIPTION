@@ -1,0 +1,17 @@
+Package: corrViz
+Type: Package
+Title: Visualise Correlations
+Version: 0.1.0
+Author: Alan Inglis
+Maintainer: Alan Inglis <alan.n.inglis@gmail.com>
+Description: A suite of plots for visualising correlations. 
+License: GPL (>=2)
+Encoding: UTF-8
+Imports: 
+    ggplot2,
+    colorspace,
+    stats,
+    dplyr,
+    visNetwork
+LazyData: true
+RoxygenNote: 7.2.1
