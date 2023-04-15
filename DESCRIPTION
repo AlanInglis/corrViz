@@ -12,6 +12,13 @@ Imports:
     colorspace,
     stats,
     dplyr,
-    visNetwork
+    visNetwork,
+    plotly,
+    DendSer,
+    reshape2,
+    ggforce,
+    gganimate,
+    tidyr,
+    forcats,
 LazyData: true
 RoxygenNote: 7.2.1
