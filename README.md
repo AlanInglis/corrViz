@@ -10,3 +10,17 @@
 
 An R package for visualising correlations with a focus on interactive
 visualisations. More to come!!
+
+Download the development version from
+[GitHub](https://github.com/AlanInglis/corrViz) with:
+
+``` r
+# install.packages("devtools")
+devtools::install_github("AlanInglis/corrViz")
+```
+
+You can then load the package with:
+
+``` r
+library(corrViz)
+```
