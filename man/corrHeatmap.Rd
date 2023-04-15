@@ -8,6 +8,7 @@ corrHeatmap(
   data,
   method = c("pearson", "kendall", "spearman"),
   display = c("all", "upper", "lower"),
+  reorder = TRUE,
   pal = colorspace::diverging_hcl(palette = "Blue-Red", n = 100)
 )
 }
@@ -19,6 +20,8 @@ One of "pearson" (default), "kendall", or "spearman": can be abbreviated.}
 
 \item{display}{Choose to display the upper, lower, or full martix of vaules using
 "upper", "lower", or "all", respectively.}
+
+\item{reorder}{If TRUE (the default) then the heatmap is reordered to group correlations.}
 
 \item{pal}{The colour palette to use for displaying values.}
 }

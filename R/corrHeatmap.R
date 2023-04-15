@@ -7,6 +7,7 @@
 #' One of "pearson" (default), "kendall", or "spearman": can be abbreviated.
 #' @param display Choose to display the upper, lower, or full martix of vaules using
 #' "upper", "lower", or "all", respectively.
+#' @param reorder If TRUE (the default) then the heatmap is reordered to group correlations.
 #' @param pal The colour palette to use for displaying values.
 #'
 #' @return An interactive heatmap plot displaying correlations.
@@ -16,6 +17,7 @@
 #'
 #' @importFrom plotly ggplotly
 #' @importFrom reshape2 melt
+#' @importFrom DendSer dser
 #' @import ggplot2
 #'
 #' @examples
@@ -27,12 +29,32 @@
 corrHeatmap <- function(data,
                         method = c("pearson", "kendall", "spearman"),
                         display = c('all', 'upper', 'lower'),
+                        reorder = TRUE,
                         pal = colorspace::diverging_hcl(palette = "Blue-Red", n = 100)){
 
 
   # get correlations
   correlations <- cor(data, method = method)
   diag(correlations) <- NA
+
+  if(reorder){
+    corrReorder <- function(d) {
+      d1 <- d
+      d1[is.na(d)] <- 0
+      correl <- as.dist(d1)
+      rcorrel <- range(correl)
+      if (rcorrel[2] != rcorrel[1]) {
+        correl <- (correl - rcorrel[1]) / (rcorrel[2] - rcorrel[1])
+      }
+      score <- apply(as.matrix(correl), 1, max)
+      o <- DendSer::dser(-correl, -score, cost = DendSer::costLS)
+      res <- d[o, o]
+      class(res) <- class(d)
+      res
+    }
+
+    correlations <- corrReorder(correlations)
+  }
 
   # choose upper or lower
   display <- match.arg(display)
