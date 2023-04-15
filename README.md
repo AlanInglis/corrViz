@@ -1,13 +1,11 @@
 
 <!-- README.md is generated from README.Rmd. Please edit that file -->
 
-# vivid
+# corrViz
 
 <!-- badges: start -->
 
-[![codecov](https://codecov.io/gh/AlanInglis/vivid/branch/master/graph/badge.svg?token=IJTT3ZW1RP)](https://app.codecov.io/gh/AlanInglis/vivid)
+<img src="https://raw.githubusercontent.com/AlanInglis/corrViz/main/badge/corrvizlogo.png" width="240" height="276" align="right" />
 <!-- badges: end -->
 
-# corrViz
-
-An R package for visualising correlations
+An R package for visualising correlations. More to come!!
