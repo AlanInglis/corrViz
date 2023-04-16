@@ -6,7 +6,7 @@
 #' @param data A data frame.
 #' @param method Which correlation coefficient (or covariance) is to be computed.
 #' One of "pearson" (default), "kendall", or "spearman": can be abbreviated.
-#' @param filterCorr Filter correlations with an absolute value greater than selected value.
+#' @param threshold Filter correlations with an absolute value greater than selected value.
 #' @param layout Use an \code{igraph} layout to display network.
 #' @param width The width of the viewing window.
 #' @param height The height of the viewing window.
@@ -32,12 +32,12 @@
 #' @importFrom visNetwork visPhysics
 #'
 #' @examples
-#' corrNetwork(data = iris[,1:4], filterCorr = 0.5)
+#' corrNetwork(data = iris[,1:4], threshold = 0.5)
 #'
 #' library(MASS)
 #' data("Boston")
 #' corrNetwork(data = Boston,
-#'            filterCorr = 0.5,
+#'            threshold = 0.5,
 #'             method = "kendall",
 #'            layout = 'layout_on_grid',
 #'            physics = F)
@@ -45,13 +45,13 @@
 
 corrNetwork <- function(data,
                         method = c("pearson", "kendall", "spearman"),
-                        filterCorr = 0,
+                        threshold = 0,
                         layout = "layout_nicely",
                         width = "100%",
                         height = "400px",
                         physics = TRUE) {
-  if (filterCorr > 1 | filterCorr < 0) {
-    stop("filterCorr must be in the range [0,1]")
+  if (threshold > 1 | threshold < 0) {
+    stop("threshold must be in the range [0,1]")
   }
 
   # Calculate correlation matrix
@@ -82,7 +82,7 @@ corrNetwork <- function(data,
   nodes <- data.frame(id = 1:length(names(data)), label = names(data))
 
   edges <- new_df |>
-    filter(value < -filterCorr | value > filterCorr) |>
+    filter(value < -threshold | value > threshold) |>
     mutate(
       from = match(col_name, nodes$label),
       to = match(row_name, nodes$label),

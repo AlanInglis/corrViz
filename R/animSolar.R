@@ -7,7 +7,7 @@
 #' One of "pearson" (default), "kendall", or "spearman": can be abbreviated.
 #' @param sun A variable name to be chosen as the dependent variable.
 #' @param path Path of the directory to save plot to. Defaults to the working directory.
-#' @param gifName File name to create on disk. should be in the format "myfile.gif"
+#' @param gif_name File name to create on disk. should be in the format "myfile.gif"
 #' @param fps The frame rate of the animation in frames/sec. default is 60 fps.
 #'
 #' @return An animated solar system plot displaying correlations.
@@ -39,7 +39,7 @@ animSolar <- function(data,
                       method = c("pearson", "kendall", "spearman"),
                       sun = NULL,
                       path = NULL,
-                      gifName = 'solar_system.gif',
+                      gif_name = 'solar_system.gif',
                       fps = 60) {
 
   if (!requireNamespace("gifski", quietly = TRUE)){
@@ -136,7 +136,7 @@ animSolar <- function(data,
     width = 800, height = 800, units = "px",
     renderer = gifski_renderer()
   )
-  anim_save(gifName, animation, path = path)
+  anim_save(gif_name, animation, path = path)
 }
 
 

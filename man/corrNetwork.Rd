@@ -7,7 +7,7 @@
 corrNetwork(
   data,
   method = c("pearson", "kendall", "spearman"),
-  filterCorr = 0,
+  threshold = 0,
   layout = "layout_nicely",
   width = "100\%",
   height = "400px",
@@ -20,7 +20,7 @@ corrNetwork(
 \item{method}{Which correlation coefficient (or covariance) is to be computed.
 One of "pearson" (default), "kendall", or "spearman": can be abbreviated.}
 
-\item{filterCorr}{Filter correlations with an absolute value greater than selected value.}
+\item{threshold}{Filter correlations with an absolute value greater than selected value.}
 
 \item{layout}{Use an \code{igraph} layout to display network.}
 
@@ -44,12 +44,12 @@ correlations have red coloured edges whereas negative correlations have blue col
 edges.
 }
 \examples{
-corrNetwork(data = iris[,1:4], filterCorr = 0.5)
+corrNetwork(data = iris[,1:4], threshold = 0.5)
 
 library(MASS)
 data("Boston")
 corrNetwork(data = Boston,
-           filterCorr = 0.5,
+           threshold = 0.5,
             method = "kendall",
            layout = 'layout_on_grid',
            physics = F)

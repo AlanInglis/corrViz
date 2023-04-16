@@ -75,9 +75,9 @@ corrHeatmap <- function(data,
   dfm$correlation <- round(dfm$correlation, 3)
 
   # order factors
-  labelNames <- colnames(correlations)
-  dfm$Var1 <- factor(dfm$Var1, levels = labelNames)
-  dfm$Var2 <- factor(dfm$Var2, levels = labelNames)
+  label_names <- colnames(correlations)
+  dfm$Var1 <- factor(dfm$Var1, levels = label_names)
+  dfm$Var2 <- factor(dfm$Var2, levels = label_names)
 
   # Plot heatmap using ggplot2
   p <- ggplot(dfm, aes(x = Var1, y = Var2, fill = correlation)) +

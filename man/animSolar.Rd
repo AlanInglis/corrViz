@@ -9,7 +9,7 @@ animSolar(
   method = c("pearson", "kendall", "spearman"),
   sun = NULL,
   path = NULL,
-  gifName = "solar_system.gif",
+  gif_name = "solar_system.gif",
   fps = 60
 )
 }
@@ -23,7 +23,7 @@ One of "pearson" (default), "kendall", or "spearman": can be abbreviated.}
 
 \item{path}{Path of the directory to save plot to. Defaults to the working directory.}
 
-\item{gifName}{File name to create on disk. should be in the format "myfile.gif"}
+\item{gif_name}{File name to create on disk. should be in the format "myfile.gif"}
 
 \item{fps}{The frame rate of the animation in frames/sec. default is 60 fps.}
 }
