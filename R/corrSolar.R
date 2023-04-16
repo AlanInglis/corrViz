@@ -24,7 +24,6 @@
 #' @importFrom dplyr mutate
 #' @importFrom dplyr row_number
 #' @importFrom dplyr n
-#' @importFrom ggforce geom_circle
 #' @import ggplot2
 #'
 #' @examples
@@ -65,7 +64,8 @@ corrSolar <- function(data,
            x = col_name,
            y = row_name)
 
-
+  # check if any correaltions would round to 1 and change to 0.9
+  correlations$r <- ifelse(correlations$r > 0.9, 0.9, correlations$r)
 
   # Assign orbit radius based on absolute, rounded correlation values
   correlations$r <- round(correlations$r, 1)
@@ -77,16 +77,35 @@ corrSolar <- function(data,
   correlations$col <- ifelse(correlations$r <= 0, "blue", "red")
   correlations <- na.omit(correlations)
 
+  # Function to generate points along the circumference of a circle
+  circle_points <- function(radius, n_points = 100) {
+    tibble::tibble(
+      x = radius * cos(seq(0, 2 * pi, length.out = n_points)),
+      y = radius * sin(seq(0, 2 * pi, length.out = n_points)),
+      r = radius
+    )
+  }
+
+
+  # Modify the data.frame to generate circle points for each orbit_radius
+  circle_data <- dplyr::bind_rows(lapply(unique(correlations$orbit_radius), circle_points), .id = "id")
+
+
+  # create df of circle names to display
+  circle_name <- data.frame(nam =  unique(round(abs(correlations$r), 1)),
+                            nam2 = unique(round(abs(correlations$orbit_radius), 1)))
+
+
   # Create the correlation orbit plot with different colors for each line and point
-  correlation_orbit_plot <- ggplot(correlations) +
-    ggforce::geom_circle(aes(x0 = 0, y0 = 0, r = orbit_radius, color = stage(y, after_scale = alpha(color, 0.5))),
-                         linetype = "solid", alpha = 0.5) +
-    geom_point(aes(x = orbit_radius * cos(angle), y = orbit_radius * sin(angle)), color = correlations$col, size = 4) +
-    geom_text(aes(x = orbit_radius * cos(angle), y = orbit_radius * sin(angle), label = y), hjust = -0.5, vjust = 0.5) +
-    geom_point(aes(x = 0, y = 0), size = 6, color = "yellow") +
-    geom_text(aes(x = 0, y = 0, label = sun), hjust = -0.5, vjust = -1) +
-    geom_text(data = correlations, aes(x = 0, y = orbit_radius, label = round(abs(r), 1)),
-              size = 3.5, alpha = 0.3) +
+  correlation_orbit_plot <- ggplot(circle_data, aes(x = x, y = y)) +
+    geom_path(aes(group = id, color = id), linetype = "solid", alpha = 0.5) +
+    geom_point(data = correlations, aes(x = orbit_radius * cos(angle), y = orbit_radius * sin(angle)), color = correlations$col, size = 4) +
+    geom_text(data = correlations, aes(x = orbit_radius * cos(angle), y = orbit_radius * sin(angle), label = y), hjust = -0.5, vjust = 0.5) +
+    geom_point(data = correlations, aes(x = 0, y = 0), size = 6, color = "yellow") +
+    geom_text(data = correlations, aes(x = 0, y = 0, label = sun), hjust = -0.5, vjust = -1) +
+    geom_text(data = circle_name, aes(x = 0, y = nam2,
+                                      label = nam),
+              size = 3.5, color = 'black', alpha = 0.3) +
     theme_void() +
     theme(legend.position = "none",
           axis.title = element_blank(),
