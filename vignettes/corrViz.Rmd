@@ -116,6 +116,19 @@ corrSolar(data = mtcars,
 <caption><span id="fig5:fig5">Figure 5: </span>text here.</caption>
 </center>
 
+# Solar plot animation
+
+```{r, solar2, fig.align='center', out.width='75%', out.height='75%'}
+animSolar(data = mtcars,
+          method = 'pearson',
+          sun = 'mpg',
+          export = F,
+          num_frames = 25)
+```
+<center>
+<caption><span id="fig5:fig5">Figure 5: </span>text here.</caption>
+</center>
+
 
 # Bar plot
 
