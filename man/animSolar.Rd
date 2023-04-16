@@ -8,6 +8,8 @@ animSolar(
   data,
   method = c("pearson", "kendall", "spearman"),
   sun = NULL,
+  export = FALSE,
+  num_frames = 100,
   path = NULL,
   gif_name = "solar_system.gif",
   fps = 60
@@ -21,11 +23,17 @@ One of "pearson" (default), "kendall", or "spearman": can be abbreviated.}
 
 \item{sun}{A variable name to be chosen as the dependent variable.}
 
+\item{export}{If TRUE, then the animation is exported to the users machine.
+If FALSE (default), then the animation is played in the viewer window.}
+
+\item{num_frames}{The number of frames.}
+
 \item{path}{Path of the directory to save plot to. Defaults to the working directory.}
 
-\item{gif_name}{File name to create on disk. should be in the format "myfile.gif"}
+\item{gif_name}{File name to create on disk. Must be in the format "myFile.gif"}
 
-\item{fps}{The frame rate of the animation in frames/sec. default is 60 fps.}
+\item{fps}{The frames rate of the exported animation in frames/sec. Default is 60 fps and
+is only used when exporting a gif via \code{export = TRUE}.}
 }
 \value{
 An animated solar system plot displaying correlations.
@@ -34,6 +42,14 @@ An animated solar system plot displaying correlations.
 Creates an animated solar system correlation plot.
 }
 \details{
+the \code{num_frames} argument is used the number of frames.
+Setting this to a low value will produce the plot
+quicker, however having a low number of frames will result in the "planets" jumping
+as the frames transition. Additionally, a low values of   \code{num_frames} will affect the
+orbit of the animation when setting \code{export = FALSE}. This differs from the
+\code{fps} argument which sets the number of frames to play per second for use
+when exporting a gif.
+
 In a solar system correlation plot, the dependent variable of
 interest is positioned at the center, represented as the sun.
 The explanatory variables are depicted as planets orbiting
