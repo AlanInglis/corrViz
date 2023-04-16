@@ -51,28 +51,35 @@ library(corrViz)
 ```
   
   
-# Visualization Methods
+# Methods
 
-The `corrViz` package offers several visualization methods to help you explore and communicate correlations effectively, with an emphasis on interactivity. Some of the available methods include:
+The `corrViz` package offers several visualization methods to help you explore and communicate correlations effectively, with an emphasis on interactivity. At it's core, `corrViz` uses the in-built `R` function `cor()` to compute the correlations. As a result any of the correlation methods available in the `cor` function can be used in the `corrViz` visualisations via the `method` argument. The only required inputs for all `corrViz` functions are the a dataset and the correlation method. However, each visualization has multiple customization options, which are outlined in this document. The `plotly` package^[ C. Sievert. Interactive Web-Based Data Visualization with R, plotly, and shiny. Chapman and Hall/CRC Florida, 2020.] is used to create interactive graphics.
 
-* Heatmaps
-* Networks
-* Scatterplot matrices
-* Bar plots
-* Chord diagrams
 
 # Heat map
+
+The following code produces an interactive heatmap displaying variable correlations, which can be seen in Figure 1. The additional arguments here are:
+
+* `display`: Choose to display the upper, lower, or full matrix of values using `"upper"`, `"lower"`, or `"all"`, respectively.
+* `reorder`: If TRUE (the default) then the heatmap is reordered to group correlations.
+* `pal`: The colour palette to use for displaying values.
+
+Hovering the mouse over a cell in the heatmap will display a box containing the variable pair names and their associated correlation value. Dragging the mouse will zoom in on the selected area and double-clicking the plot will reset the zoom.
 
 ```{r, heatmap, out.width='100%', out.height='100%'}
 corrHeatmap(data = mtcars,
             method = 'pearson',
             display = 'all',
-            reorder = TRUE)
+            reorder = TRUE,
+            pal = colorspace::diverging_hcl(palette = "Blue-Red", n = 100))
 
 ```
 <center>
-<caption><span id="fig1:fig1">Figure 1: </span>text here.</caption>
+<caption><span id="fig1:fig1">Figure 1: </span>Interactive heatmap displaying all correlations.</caption>
 </center>
+
+
+In Figure 1 we set `display = "all"` which shows the full heatmap. To display only the upper or lower portion of the heatmap we use the appropriate argument in `display`, as shown in Figure 2 (which shows the lower section).
 
 ```{r, heatmap2, out.width='100%', out.height='100%'}
 corrHeatmap(data = mtcars,
@@ -82,122 +89,209 @@ corrHeatmap(data = mtcars,
 
 ```
 <center>
-<caption><span id="fig2:fig2">Figure 2: </span>text here.</caption>
+<caption><span id="fig2:fig2">Figure 2: </span>Interactive heatmap displaying correlations from
+the lower section of the heatmap.</caption>
 </center>
 
 # Network
 
+For build our network plots we use the `visNetwork` package^[Almende B.V. and Contributors, Thieurmel B (2022). _visNetwork: Network Visualization using 'vis.js' Library_. R package version 2.1.2, <https://CRAN.R-project.org/package=visNetwork>]. the additional arguments for producing a network plot are:
+
+* `threshold`: Used to filter correlations with an absolute value lower than selected value.
+* `layout`: Use an `igraph` package^[Csardi G, Nepusz T: The igraph software package for complex
+  network research, InterJournal, Complex Systems 1695. 2006.
+  https://igraph.org] layout to display network.
+* `width`: The width of the viewing window
+* `height`: The height of the vewing window
+* `physics`: If TRUE (the default) then physics is enabled on nodes. This will alter the layout to be roughly circular.
+
 ```{r, network, out.width='100%', out.height='100%'}
 corrNetwork(data = mtcars,
-            method = 'pearson',
+            method = "pearson",
+            threshold = 0,
+            layout = "layout_nicely",
+            width = "100%",
+            height = "400px",
             physics = FALSE)
 
 ```
 <center>
-<caption><span id="fig3:fig3">Figure 3: </span>text here.</caption>
+<caption><span id="fig3:fig3">Figure 3: </span>Interactive network plot displaying correlations.</caption>
 </center>
+
+Figure 3 shows a network in which every node corresponds to a variable present in the data, and each connecting edge denotes the correlation between them. The edges are color-coded to signify the correlation, with red indicating a positive correlation and blue representing a negative one. The thickness of each edge corresponds to the magnitude of the correlation between two variables. Hovering the mouse over an edge will display a box containing the correlation value for that edge. 
+
+When clicking on a node, the selected node will change colour and only nodes that connected to the selected node are highlighted (a better example of this can be seen in Figure 4). Additionally, the top right of the plot has a drop-down box which can be used to select a particular node/variable. DOing so will have the same effect as clicking on the node. The nodes themselves can be re-positioned by dragging them (only works when `physics = FALSE`).  The bottom left of the plot contains controls to zoom in or out, whereas the bottom right has controls to pan the image. 
+
+
+In Figure 4, below, we set the `threshold` argument to equal 0.8. This will filter any correlations from our visualization with an absolute value lower than 0.8. Additionally, in Figure 4, `physics = TRUE`. By enabling physics, each node is repelled from each other and the edges act like springs. When `physics = TRUE`, the nodes can still be dragged, however as each node repels each other with equal force, the display will try to _push_ each node away from each other.
+
+
 ```{r, network2, out.width='100%', out.height='100%'}
-corrNetwork(mtcars, threshold = 0.8)
+corrNetwork(data = mtcars,
+            method = "pearson",
+            threshold = 0.8,
+            physics = TRUE)
 ```
 <center>
-<caption><span id="fig4:fig4">Figure 4: </span>text here.</caption>
+<caption><span id="fig4:fig4">Figure 4: </span>Interactive network plot displaying variables with an absolute correlation value above 0.8.</caption>
 </center>
 
 
 # Solar plot
 
-```{r, solar, fig.align='center', out.width='75%', out.height='75%'}
+
+In a solar system correlation plot, the _dependent_ (sun) variable of interest is positioned at the center, represented as the sun. The _explanatory_ (planet) variables are depicted as planets orbiting around the sun, with their distance from the sun corresponding to the absolute value of their correlation with the dependent variable. Therefore, the greater the distance of a planet from the sun, the weaker the correlation between the explanatory variable and the dependent variable. Figure 5 shows a static solar system correlation plot with `mpg` selected as the dependent variable via the `sun` argument. Planet variables are coloured either red (positive correlation) or blue (negative correlation).
+
+In Figure 5, the variable `mpg` is selected as the sun and is placed in the centre. 
+
+```{r, solar, fig.align='center', out.width='65%', out.height='65%'}
 corrSolar(data = mtcars,
           method = 'pearson',
           sun = 'mpg')
 
 ```
 <center>
-<caption><span id="fig5:fig5">Figure 5: </span>text here.</caption>
+<caption><span id="fig5:fig5">Figure 5: </span>Solar system correlation plot with the variable `mpg` as the sun.</caption>
 </center>
 
 # Solar plot animation
+
+In addition to the static solar system correlation plot, we provide an animated version which displays the planet variables orbiting the sun. The additional arguments are:
+
+* `export`: If TRUE, then the animation is exported to the user's machine as a gif. If FALSE (default), then the animation is played in the viewer window.
+* `num_frames`: The number of frames to render.
+* `path`: Path of the directory to save plot to.
+* `gif_name`: File name to create on disk. Must be in the format "myFile.gif".
+* `fps`: The frame rate of the exported animation in frames/sec. Default is 60 fps and is only used when exporting a gif via `export = TRUE`.
 
 ```{r, solar2, fig.align='center', out.width='75%', out.height='75%'}
 animSolar(data = mtcars,
           method = 'pearson',
           sun = 'mpg',
-          export = F,
-          num_frames = 25)
+          export = FALSE,
+          num_frames = 100,
+          path = NULL,
+          gif_name = "solar_system.gif",
+          fps = 60)
 ```
 <center>
-<caption><span id="fig5:fig5">Figure 5: </span>text here.</caption>
+<caption><span id="fig6:fig6">Figure 6: </span>Animated solar system correlation plot with the variable `mpg` as the sun.</caption>
 </center>
 
+The `num_frames` argument is used to select the number of frames. Setting this to a low value will produce the plot quicker, however having a low number of frames will result in the "planets" jumping as the frames transition. Additionally, a low values of `num_frames` will affect the orbit of the animation when setting `export = FALSE`. This differs from the `fps` argument which sets the number of frames to play per second for use when exporting a gif. When `export = FALSE` (as is the case in figure 6), a 'play' button is provided to start the animation. Hovering over a planet will display the correlation value.
 
 # Bar plot
 
+Figure 7 shows an interactive barplot displaying correlation values. The red bars extending right represent the positive correlations whereas the blue bars extending left represent the negative correlations. 
+The additional arguements here are:
+* `interactive`: If TRUE then an interactive version of the barplot is displayed.
+* `pal`: The colour palette to use for displaying values.
+
 ```{r, bar1, out.width='100%', out.height='100%'}
-corrBarplot(data = mtcars, interactive = TRUE)
+corrBarplot(data = mtcars, 
+           method = "pearson",
+           interactive = TRUE,
+           pal = colorRampPalette(c("cornflowerblue", 'white', 'tomato'))(100))
 ```
 <center>
-<caption><span id="fig6:fig6">Figure 6: </span>text here.</caption>
+<caption><span id="fig7:fig7">Figure 7: </span>Bar plot displaying correlation values.</caption>
 </center>
+
+Hovering the mouse over a bar will display the name of the variable pair and their associated correlation.
+
 
 # Bubble
 
+Figure 8 is similar to the heatmap shown in Figures 1 and 2, except this time each variable pair is represented as a circle, with the size corresponding the the magnitude of the correlation. Hovering over a bubble will display the variable pair names and their associated correlation. The additional arguments for this function are:
+
+* `display`: Choose to display the upper, lower, or full matrix of values using "upper", "lower", or "all", respectively.
+* `pal`: The colour palette to use for displaying values.
+
 ```{r, bubble, out.width='100%', out.height='100%'}
-corrBubble(data = mtcars, method = 'pearson', display = 'all')
-corrBubble(data = mtcars, method = 'pearson', display = 'upper')
+corrBubble(data = mtcars, 
+           method = 'pearson', 
+           display = 'all',
+           pal = colorRampPalette(c("cornflowerblue", "white", "tomato"))(100))
 ```
 <center>
-<caption><span id="fig7:fig7">Figure 7: </span>text here.</caption>
+<caption><span id="fig8:fig8">Figure 8: </span>Bubble plot displaying correlation values.</caption>
+</center>
+
+As with the heatmap, we can also display a portion of the plot using the `display` argument, as shown in Figure 9.
+
+```{r, bubble1, out.width='100%', out.height='100%'}
+corrBubble(data = mtcars, 
+           method = 'pearson', 
+           display = 'upper')
+```
+<center>
+<caption><span id="fig9:fig9">Figure 9: </span>Bubble plot displaying correlation values from the upper portion of the correlation matrix.</caption>
 </center>
 
 # Chord plot
 
+Figure 10 shows a chord plot displaying correlations. This type of plot can quickly become overloaded with information, so it is recommended to only use this plot when thresholding correlation values. In Figure 10, `threshold = 0.8`, which filters any correlations from the visualization an absolute value lower than selected value. The width of the chords corresponds to the magnitude of the correlation with their colours indicating positive (red) or negative correlations (blue).
+The additional arguments are:
+
+* `threshold`: Filter correlations with an absolute value lower than selected value.
+* `circle`: If TRUE then plot is displayed as a circle.
+
 ```{r, chord, fig.align='center', out.width='60%', out.height='60%'}
-corrChord(data = mtcars, method = 'pearson', circle = FALSE, threshold = 0.8)
+corrChord(data = mtcars, 
+          method = 'pearson',
+          circle = FALSE, 
+          threshold = 0.8)
 ```
 <center>
-<caption><span id="fig9:fig9">Figure 9: </span>text here.</caption>
+<caption><span id="fig10:fig10">Figure 10: </span>Chord plot displaying correlation values with a magnitude above 0.8.</caption>
 </center>
 
-
+Figure 11, displays the same information as Figure 10, but uses a circular layout, via the `circle` argument.
 
 ```{r, chord2, fig.align='center', out.width='60%', out.height='60%'}
-corrChord(data = mtcars, method = 'pearson', circle = TRUE, threshold = 0.8)
+corrChord(data = mtcars,
+          method = 'pearson', 
+          circle = TRUE, 
+          threshold = 0.8)
 ```
 <center>
-<caption><span id="fig10:fig10">Figure 10: </span>text here.</caption>
+<caption><span id="fig11:fig11">Figure 11: </span>Circular chord plot displaying correlation values with a magnitude above 0.8.</caption>
 </center>
 
-# Circular chord plot
+# Circular correlation plot
+
+Figure 12 shows a circular correlation plot. This is similar to Figure 11 but places the variable names on the outside of a neater circle. as with Figures 10 and 11, the width of the chords in Figure 12 corresponds to the magnitude of the correlation with their colours indicating positive (red) or negative correlations (blue). The additional arguments are:
+ * `ticks`: If TRUE, then axis ticks are displayed on the circle. 
+ * `threshold`: Filter correlations with an absolute value lower than selected value.
 
 ```{r, circle, fig.align='center', out.width='60%', out.height='60%'}
-corrCircle(data = mtcars, method = 'pearson', ticks = TRUE)
+corrCircle(data = mtcars, 
+           method = 'pearson', 
+           threshold = 0,
+           ticks = TRUE)
 ```
 <center>
-<caption><span id="fig11:fig11">Figure 11: </span>text here.</caption>
+<caption><span id="fig12:fig12">Figure 12: </span>Circular correlation plot displaying correlation values.</caption>
 </center>
 
+In Figure 13, we filter the visualization to display correlations with an absolute value greater than 0.8. In this case the axis ticks are removed.
 
 ```{r, circle2, fig.align='center', out.width='60%', out.height='60%'}
-corrCircle(data = mtcars, method = 'pearson', ticks = FALSE, threshold = 0.8)
+corrCircle(data = mtcars, 
+           method = 'pearson', 
+           ticks = FALSE, 
+           threshold = 0.8)
 ```
 <center>
-<caption><span id="fig12:fig12">Figure 12: </span>text here.</caption>
+<caption><span id="fig13:fig13">Figure 13: </span>Circular correlation plot displaying correlation values with a magnitude above 0.8.</caption>
 </center>
 
+# Scatterplot matrix
 
+STILL TO COME!!!
 
-
-
-# Customization
-
-`corrViz` offers various customization options to tailor the appearance of your correlation plots. Some common customization options include:
-
-Adjusting the color palette
-Changing the size and shape of points (for scatterplot matrices)
-Modifying labels, axes, and titles
-Adding a correlation threshold to only display strong correlations
-Refer to the package documentation for a detailed list of customization options and how to apply them to your correlation plots.
 
 # Conclusion
-The `corrViz` package provides a convenient and powerful way to visualize correlations between variables in your dataset. With its variety of visualization methods and customization options, you can gain valuable insights into the relationships within your data and communicate these findings effectively. Explore the full potential of
+The `corrViz` package provides a convenient and powerful way to visualize correlations between variables in your dataset. With its variety of visualization methods and customization options, you can gain valuable insights into the relationships within your data and communicate these findings effectively.
   
