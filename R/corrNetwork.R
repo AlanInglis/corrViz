@@ -50,8 +50,9 @@ corrNetwork <- function(data,
                         width = "100%",
                         height = "400px",
                         physics = TRUE) {
-  if (threshold > 1 | threshold < 0) {
-    stop("threshold must be in the range [0,1]")
+
+  if (threshold > 1 | threshold < -1) {
+    stop("threshold must be in the range [-1,1]")
   }
 
   # Calculate correlation matrix

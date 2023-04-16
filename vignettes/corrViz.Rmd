@@ -1,20 +1,32 @@
 ---
-output: github_document
-always_allow_html: true
+title: "corrViz"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{corrViz}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
 ---
-
-<!-- README.md is generated from README.Rmd. Please edit that file -->
 
 ```{r, include = FALSE}
 knitr::opts_chunk$set(
   collapse = TRUE,
-  comment = "#>",
-  fig.path = "man/figures/README-",
-  out.width = "100%"
+  comment = "#>"
 )
 ```
 
-# corrViz
+```{r setup, echo=FALSE}
+library(corrViz)
+```
+
+
+<!-- avoid border around images -->
+<style>
+img {
+  border: 0;
+  }
+</style>
+ 
+# Introduction
 
 <!-- badges: start -->
 <img src="https://raw.githubusercontent.com/AlanInglis/corrViz/main/badge/corrvizlogo.png" width="240" height="276" align="right" />
@@ -34,10 +46,9 @@ devtools::install_github("AlanInglis/corrViz")
 ```
 
 You can then load the package with:
-```{r setup}
+``` r
 library(corrViz)
 ```
-
   
   
 # Visualization Methods
@@ -173,3 +184,7 @@ Changing the size and shape of points (for scatterplot matrices)
 Modifying labels, axes, and titles
 Adding a correlation threshold to only display strong correlations
 Refer to the package documentation for a detailed list of customization options and how to apply them to your correlation plots.
+
+# Conclusion
+The `corrViz` package provides a convenient and powerful way to visualize correlations between variables in your dataset. With its variety of visualization methods and customization options, you can gain valuable insights into the relationships within your data and communicate these findings effectively. Explore the full potential of
+  
