@@ -75,7 +75,7 @@ One of "pearson" (default), "kendall", or "spearman": can be abbreviated.</p></d
 
 
 <dt>export</dt>
-<dd><p>If TRUE, then the animation is exported to the users machine.
+<dd><p>If TRUE, then the animation is exported to the user's machine.
 If FALSE (default), then the animation is played in the viewer window.</p></dd>
 
 
@@ -92,7 +92,7 @@ If FALSE (default), then the animation is played in the viewer window.</p></dd>
 
 
 <dt>fps</dt>
-<dd><p>The frames rate of the exported animation in frames/sec. Default is 60 fps and
+<dd><p>The frame rate of the exported animation in frames/sec. Default is 60 fps and
 is only used when exporting a gif via <code>export = TRUE</code>.</p></dd>
 
 </dl></div>
@@ -104,14 +104,7 @@ is only used when exporting a gif via <code>export = TRUE</code>.</p></dd>
     </div>
     <div id="details">
     <h2>Details</h2>
-    <p>the <code>num_frames</code> argument is used the number of frames.
-Setting this to a low value will produce the plot
-quicker, however having a low number of frames will result in the "planets" jumping
-as the frames transition. Additionally, a low values of   <code>num_frames</code> will affect the
-orbit of the animation when setting <code>export = FALSE</code>. This differs from the
-<code>fps</code> argument which sets the number of frames to play per second for use
-when exporting a gif.</p>
-<p>In a solar system correlation plot, the dependent variable of
+    <p>In a solar system correlation plot, the dependent variable of
 interest is positioned at the center, represented as the sun.
 The explanatory variables are depicted as planets orbiting
 around the sun, with their distance from the sun corresponding
@@ -119,6 +112,13 @@ to the absolute value of their correlation with the dependent variable.
 Therefore, the greater the distance of a planet from the sun,
 the weaker the correlation between the explanatory variable
 and the dependent variable.</p>
+<p>The <code>num_frames</code> argument is used to select the number of frames.
+Setting this to a low value will produce the plot
+quicker, however having a low number of frames will result in the "planets" jumping
+as the frames transition. Additionally, a low values of   <code>num_frames</code> will affect the
+orbit of the animation when setting <code>export = FALSE</code>. This differs from the
+<code>fps</code> argument which sets the number of frames to play per second for use
+when exporting a gif.</p>
     </div>
 
   </div>
