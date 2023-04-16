@@ -9,7 +9,6 @@ License: GPL (>=2)
 Encoding: UTF-8
 Imports: 
     ggplot2,
-    colorspace,
     stats,
     dplyr,
     visNetwork,
@@ -20,5 +19,8 @@ Imports:
     gganimate,
     tidyr,
     forcats,
+    igraph,
+    ggraph,
+    circlize
 LazyData: true
 RoxygenNote: 7.2.1
