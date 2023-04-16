@@ -13,7 +13,9 @@ between variables in their datasets. With the ever-growing size and
 complexity of datasets, it is crucial to have a clear understanding of
 the relationships between variables. This package aims to provide an
 easy and effective way to explore and visualize these correlations,
-making it easier to interpret and communicate results.
+making it easier to interpret and communicate results. A demonstration
+of the package can be found here:
+<https://alaninglis.github.io/corrViz/articles/corrViz.html>
 
 Download the development version from
 [GitHub](https://github.com/AlanInglis/corrViz) with:
