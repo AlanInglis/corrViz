@@ -1,6 +1,5 @@
 ---
 output: github_document
-always_allow_html: true
 ---
 
 <!-- README.md is generated from README.Rmd. Please edit that file -->
@@ -23,8 +22,6 @@ knitr::opts_chunk$set(
 
 `corrViz` is an R package designed to help users visualize correlations between variables in their datasets. With the ever-growing size and complexity of datasets, it is crucial to have a clear understanding of the relationships between variables. This package aims to provide an easy and effective way to explore and visualize these correlations, making it easier to interpret and communicate results.
 
-This vignette will introduce you to the main features and functions of the `corrViz` package, guiding you through the process of creating visually appealing and informative correlation plots. By the end of this tutorial, you should be able to use `corrViz` to create various types of correlation visualizations, customize their appearance, and gain insights into the relationships within your dataset.
-
 
 Download the development version from [GitHub](https://github.com/AlanInglis/corrViz) with:
 
@@ -34,13 +31,13 @@ devtools::install_github("AlanInglis/corrViz")
 ```
 
 You can then load the package with:
-```{r setup}
+```r 
 library(corrViz)
 ```
 
   
   
-# Visualization Methods
+### Visualization Methods
 
 The `corrViz` package offers several visualization methods to help you explore and communicate correlations effectively, with an emphasis on interactivity. Some of the available methods include:
 
@@ -49,127 +46,4 @@ The `corrViz` package offers several visualization methods to help you explore a
 * Scatterplot matrices
 * Bar plots
 * Chord diagrams
-
-# Heat map
-
-```{r, heatmap, out.width='100%', out.height='100%'}
-corrHeatmap(data = mtcars,
-            method = 'pearson',
-            display = 'all',
-            reorder = TRUE)
-
-```
-<center>
-<caption><span id="fig1:fig1">Figure 1: </span>text here.</caption>
-</center>
-
-```{r, heatmap2, out.width='100%', out.height='100%'}
-corrHeatmap(data = mtcars,
-            method = 'pearson',
-            display = 'lower',
-            reorder = FALSE)
-
-```
-<center>
-<caption><span id="fig2:fig2">Figure 2: </span>text here.</caption>
-</center>
-
-# Network
-
-```{r, network, out.width='100%', out.height='100%'}
-corrNetwork(data = mtcars,
-            method = 'pearson',
-            physics = FALSE)
-
-```
-<center>
-<caption><span id="fig3:fig3">Figure 3: </span>text here.</caption>
-</center>
-```{r, network2, out.width='100%', out.height='100%'}
-corrNetwork(mtcars, threshold = 0.8)
-```
-<center>
-<caption><span id="fig4:fig4">Figure 4: </span>text here.</caption>
-</center>
-
-
-# Solar plot
-
-```{r, solar, fig.align='center', out.width='75%', out.height='75%'}
-corrSolar(data = mtcars,
-          method = 'pearson',
-          sun = 'mpg')
-
-```
-<center>
-<caption><span id="fig5:fig5">Figure 5: </span>text here.</caption>
-</center>
-
-
-# Bar plot
-
-```{r, bar1, out.width='100%', out.height='100%'}
-corrBarplot(data = mtcars, interactive = TRUE)
-```
-<center>
-<caption><span id="fig6:fig6">Figure 6: </span>text here.</caption>
-</center>
-
-# Bubble
-
-```{r, bubble, out.width='100%', out.height='100%'}
-corrBubble(data = mtcars, method = 'pearson', display = 'all')
-corrBubble(data = mtcars, method = 'pearson', display = 'upper')
-```
-<center>
-<caption><span id="fig7:fig7">Figure 7: </span>text here.</caption>
-</center>
-
-# Chord plot
-
-```{r, chord, fig.align='center', out.width='60%', out.height='60%'}
-corrChord(data = mtcars, method = 'pearson', circle = FALSE, threshold = 0.8)
-```
-<center>
-<caption><span id="fig9:fig9">Figure 9: </span>text here.</caption>
-</center>
-
-
-
-```{r, chord2, fig.align='center', out.width='60%', out.height='60%'}
-corrChord(data = mtcars, method = 'pearson', circle = TRUE, threshold = 0.8)
-```
-<center>
-<caption><span id="fig10:fig10">Figure 10: </span>text here.</caption>
-</center>
-
-# Circular chord plot
-
-```{r, circle, fig.align='center', out.width='60%', out.height='60%'}
-corrCircle(data = mtcars, method = 'pearson', ticks = TRUE)
-```
-<center>
-<caption><span id="fig11:fig11">Figure 11: </span>text here.</caption>
-</center>
-
-
-```{r, circle2, fig.align='center', out.width='60%', out.height='60%'}
-corrCircle(data = mtcars, method = 'pearson', ticks = FALSE, threshold = 0.8)
-```
-<center>
-<caption><span id="fig12:fig12">Figure 12: </span>text here.</caption>
-</center>
-
-
-
-
-
-# Customization
-
-`corrViz` offers various customization options to tailor the appearance of your correlation plots. Some common customization options include:
-
-Adjusting the color palette
-Changing the size and shape of points (for scatterplot matrices)
-Modifying labels, axes, and titles
-Adding a correlation threshold to only display strong correlations
-Refer to the package documentation for a detailed list of customization options and how to apply them to your correlation plots.
+* and more!!
