@@ -15,7 +15,6 @@ Imports:
     plotly,
     DendSer,
     reshape2,
-    ggforce,
     gganimate,
     tidyr,
     forcats,
