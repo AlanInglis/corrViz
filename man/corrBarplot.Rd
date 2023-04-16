@@ -17,7 +17,7 @@ corrBarplot(
 \item{method}{Which correlation coefficient (or covariance) is to be computed.
 One of "pearson" (default), "kendall", or "spearman": can be abbreviated.}
 
-\item{interactive}{If TRUE then an interacive version of the barplot is displayed.}
+\item{interactive}{If TRUE then an interactive version of the barplot is displayed.}
 
 \item{pal}{The colour palette to use for displaying values.}
 }

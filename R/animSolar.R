@@ -6,15 +6,24 @@
 #' @param method Which correlation coefficient (or covariance) is to be computed.
 #' One of "pearson" (default), "kendall", or "spearman": can be abbreviated.
 #' @param sun A variable name to be chosen as the dependent variable.
-#' @param export If TRUE, then the animation is exported to the users machine.
+#' @param export If TRUE, then the animation is exported to the user's machine.
 #' If FALSE (default), then the animation is played in the viewer window.
 #' @param num_frames The number of frames.
 #' @param path Path of the directory to save plot to. Defaults to the working directory.
 #' @param gif_name File name to create on disk. Must be in the format "myFile.gif"
-#' @param fps The frames rate of the exported animation in frames/sec. Default is 60 fps and
+#' @param fps The frame rate of the exported animation in frames/sec. Default is 60 fps and
 #' is only used when exporting a gif via \code{export = TRUE}.
 #'
-#' @details the \code{num_frames} argument is used the number of frames.
+#'@details In a solar system correlation plot, the dependent variable of
+#' interest is positioned at the center, represented as the sun.
+#' The explanatory variables are depicted as planets orbiting
+#' around the sun, with their distance from the sun corresponding
+#' to the absolute value of their correlation with the dependent variable.
+#' Therefore, the greater the distance of a planet from the sun,
+#' the weaker the correlation between the explanatory variable
+#' and the dependent variable.
+#'
+#' @details The \code{num_frames} argument is used to select the number of frames.
 #' Setting this to a low value will produce the plot
 #' quicker, however having a low number of frames will result in the "planets" jumping
 #' as the frames transition. Additionally, a low values of   \code{num_frames} will affect the
@@ -24,14 +33,6 @@
 #'
 #' @return An animated solar system plot displaying correlations.
 #'
-#' @details In a solar system correlation plot, the dependent variable of
-#' interest is positioned at the center, represented as the sun.
-#' The explanatory variables are depicted as planets orbiting
-#' around the sun, with their distance from the sun corresponding
-#' to the absolute value of their correlation with the dependent variable.
-#' Therefore, the greater the distance of a planet from the sun,
-#' the weaker the correlation between the explanatory variable
-#' and the dependent variable.
 #'
 #' @importFrom dplyr filter
 #' @importFrom dplyr arrange

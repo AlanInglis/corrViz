@@ -20,7 +20,7 @@ corrNetwork(
 \item{method}{Which correlation coefficient (or covariance) is to be computed.
 One of "pearson" (default), "kendall", or "spearman": can be abbreviated.}
 
-\item{threshold}{Filter correlations with an absolute value greater than selected value.}
+\item{threshold}{Filter correlations with an absolute value lower than selected value.}
 
 \item{layout}{Use an \code{igraph} layout to display network.}
 
@@ -28,8 +28,8 @@ One of "pearson" (default), "kendall", or "spearman": can be abbreviated.}
 
 \item{height}{The height of the viewing window.}
 
-\item{physics}{If TRUE (the default) then physics is enabled on nodes. This will
-alter the layout to be roughly circular.}
+\item{physics}{If TRUE (the default) then physics is enabled on nodes. This may
+affect the selected layout.}
 }
 \value{
 A network plot displaying correlations.

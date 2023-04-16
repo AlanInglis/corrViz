@@ -17,7 +17,7 @@ corrBubble(
 \item{method}{Which correlation coefficient (or covariance) is to be computed.
 One of "pearson" (default), "kendall", or "spearman": can be abbreviated.}
 
-\item{display}{Choose to display the upper, lower, or full martix of vaules using
+\item{display}{Choose to display the upper, lower, or full matrix of values using
 "upper", "lower", or "all", respectively.}
 
 \item{pal}{The colour palette to use for displaying values.}

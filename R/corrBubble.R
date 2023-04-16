@@ -5,7 +5,7 @@
 #' @param data A data frame.
 #' @param method Which correlation coefficient (or covariance) is to be computed.
 #' One of "pearson" (default), "kendall", or "spearman": can be abbreviated.
-#' @param display Choose to display the upper, lower, or full martix of vaules using
+#' @param display Choose to display the upper, lower, or full matrix of values using
 #' "upper", "lower", or "all", respectively.
 #' @param pal The colour palette to use for displaying values.
 #'

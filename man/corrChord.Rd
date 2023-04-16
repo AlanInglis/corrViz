@@ -17,7 +17,7 @@ corrChord(
 \item{method}{Which correlation coefficient (or covariance) is to be computed.
 One of "pearson" (default), "kendall", or "spearman": can be abbreviated.}
 
-\item{threshold}{Filter correlations with an absolute value greater than selected value.}
+\item{threshold}{Filter correlations with an absolute value lower than selected value.}
 
 \item{circle}{If TRUE then plot is displayed as a circle.}
 }

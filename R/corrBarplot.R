@@ -5,7 +5,7 @@
 #' @param data A data frame.
 #' @param method Which correlation coefficient (or covariance) is to be computed.
 #' One of "pearson" (default), "kendall", or "spearman": can be abbreviated.
-#' @param interactive If TRUE then an interacive version of the barplot is displayed.
+#' @param interactive If TRUE then an interactive version of the barplot is displayed.
 #' @param pal The colour palette to use for displaying values.
 #'
 #' @return A static or interactive bar plot displaying correlations.

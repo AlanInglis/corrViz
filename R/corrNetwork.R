@@ -6,13 +6,12 @@
 #' @param data A data frame.
 #' @param method Which correlation coefficient (or covariance) is to be computed.
 #' One of "pearson" (default), "kendall", or "spearman": can be abbreviated.
-#' @param threshold Filter correlations with an absolute value greater than selected value.
+#' @param threshold Filter correlations with an absolute value lower than selected value.
 #' @param layout Use an \code{igraph} layout to display network.
 #' @param width The width of the viewing window.
 #' @param height The height of the viewing window.
-#' @param physics If TRUE (the default) then physics is enabled on nodes. This will
-#' alter the layout to be roughly circular.
-#'
+#' @param physics If TRUE (the default) then physics is enabled on nodes. This may
+#' affect the selected layout.
 #' @return A network plot displaying correlations.
 #'
 #' @details Each node in the network represents a variable where the width of

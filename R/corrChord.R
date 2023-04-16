@@ -6,7 +6,7 @@
 #' @param data A data frame.
 #' @param method Which correlation coefficient (or covariance) is to be computed.
 #' One of "pearson" (default), "kendall", or "spearman": can be abbreviated.
-#' @param threshold Filter correlations with an absolute value greater than selected value.
+#' @param threshold Filter correlations with an absolute value lower than selected value.
 #' @param circle If TRUE then plot is displayed as a circle.
 #'
 #' @return A chord plot displaying correlations.
