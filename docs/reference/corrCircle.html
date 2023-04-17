@@ -70,7 +70,7 @@ One of "pearson" (default), "kendall", or "spearman": can be abbreviated.</p></d
 <dd><p>Filter correlations with an absolute value lower than selected value.</p></dd>
 
 
-<dt>tick</dt>
+<dt>ticks</dt>
 <dd><p>Whether to display axis ticks.</p></dd>
 
 </dl></div>
@@ -85,6 +85,16 @@ One of "pearson" (default), "kendall", or "spearman": can be abbreviated.</p></d
     <p>DEtS hEre!!!</p>
     </div>
 
+    <div id="ref-examples">
+    <h2>Examples</h2>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="fu">corrCircle</span><span class="op">(</span>data <span class="op">=</span> <span class="va">mtcars</span>,</span></span>
+<span class="r-in"><span>          method <span class="op">=</span> <span class="st">'pearson'</span>,</span></span>
+<span class="r-in"><span>          threshold <span class="op">=</span> <span class="fl">0.8</span><span class="op">)</span></span></span>
+<span class="r-plt img"><img src="corrCircle-1.png" alt="" width="700" height="433"></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span></span></span>
+</code></pre></div>
+    </div>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top"><h2 data-toc-skip>Contents</h2>
