@@ -46,11 +46,9 @@ edges.
 \examples{
 corrNetwork(data = iris[,1:4], threshold = 0.5)
 
-library(MASS)
-data("Boston")
-corrNetwork(data = Boston,
-           threshold = 0.5,
-            method = "kendall",
+corrNetwork(data = mtcars,
+           threshold = 0.8,
+           method = "pearson",
            layout = 'layout_on_grid',
-           physics = F)
+           physics = FALSE)
 }

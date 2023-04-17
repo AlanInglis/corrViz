@@ -33,7 +33,9 @@ Creates an interactive bubble plot displaying correlation values. By hovering
 mouse over a cell, the variables and correlation value is shown.
 }
 \examples{
-corrBubble(data = mtcars, display = 'all')
+corrBubble(data = mtcars,
+           method = 'pearson',
+           display = 'all')
 
 
 }

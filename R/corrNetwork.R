@@ -29,17 +29,18 @@
 #' @importFrom visNetwork visNodes
 #' @importFrom visNetwork visIgraphLayout
 #' @importFrom visNetwork visPhysics
+#' @importFrom stats cor
+#' @importFrom stats na.omit
+#' @importFrom stats reshape
 #'
 #' @examples
 #' corrNetwork(data = iris[,1:4], threshold = 0.5)
 #'
-#' library(MASS)
-#' data("Boston")
-#' corrNetwork(data = Boston,
-#'            threshold = 0.5,
-#'             method = "kendall",
+#' corrNetwork(data = mtcars,
+#'            threshold = 0.8,
+#'            method = "pearson",
 #'            layout = 'layout_on_grid',
-#'            physics = F)
+#'            physics = FALSE)
 #' @export
 
 corrNetwork <- function(data,
@@ -49,6 +50,9 @@ corrNetwork <- function(data,
                         width = "100%",
                         height = "400px",
                         physics = TRUE) {
+
+  # declare global vars
+  value <- val <- NULL
 
   if (threshold > 1 | threshold < -1) {
     stop("threshold must be in the range [-1,1]")
@@ -62,7 +66,9 @@ corrNetwork <- function(data,
   df_data <- data.frame(cor_matrix)
 
   # Add row and column names as separate columns
+  df_data$row_name <- NULL
   df_data$row_name <- row.names(cor_matrix)
+  df_data$col_name <- NULL
   df_data$col_name <- colnames(cor_matrix)
 
   # Reshape data frame to long format
@@ -82,12 +88,12 @@ corrNetwork <- function(data,
   nodes <- data.frame(id = 1:length(names(data)), label = names(data))
 
   edges <- new_df |>
-    filter(value < -threshold | value > threshold) |>
+    filter(.data$value < -threshold | .data$value > threshold) |>
     mutate(
-      from = match(col_name, nodes$label),
-      to = match(row_name, nodes$label),
-      val = abs(value),
-      value = value,
+      from = match(.data$col_name, nodes$label),
+      to = match(.data$row_name, nodes$label),
+      val = abs(.data$value),
+      value = .data$value,
       width = abs(val) * 10
     )
 

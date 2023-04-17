@@ -24,10 +24,17 @@
 #' @importFrom dplyr mutate
 #' @importFrom dplyr row_number
 #' @importFrom dplyr n
+#' @importFrom dplyr desc
+#' @importFrom dplyr tibble
+#' @importFrom stats cor
+#' @importFrom stats reshape
+#' @importFrom stats na.omit
 #' @import ggplot2
 #'
 #' @examples
-#' corrSolar(mtcars, sun = 'mpg')
+#' corrSolar(data = mtcars,
+#'           method = 'pearson',
+#'           sun = 'mpg')
 #'
 #'
 #' @export
@@ -38,6 +45,9 @@ corrSolar <- function(data,
                       sun = NULL){
 
 
+  # declare global vars
+  r <- x <- y <- id <- orbit_radius <- angle <- nam <- nam2 <- NULL
+
   # Calculate correlation matrix
   cor_matrix <- cor(data, method = method)
   diag(cor_matrix) <- NA
@@ -46,7 +56,9 @@ corrSolar <- function(data,
   df_data <- data.frame(cor_matrix)
 
   # Add row and column names as separate columns
+  df_data$row_name <- NULL
   df_data$row_name <- row.names(cor_matrix)
+  df_data$col_name <- NULL
   df_data$col_name <- colnames(cor_matrix)
 
   # Reshape data frame to long format
@@ -58,11 +70,11 @@ corrSolar <- function(data,
                           times = colnames(cor_matrix))
 
   correlations <- df_data_long |>
-    filter(col_name == sun) |>
-    arrange(desc(value)) |>
-    rename(r = value,
-           x = col_name,
-           y = row_name)
+    filter(.data$col_name == sun) |>
+    arrange(desc(.data$value)) |>
+    rename(r = .data$value,
+           x = .data$col_name,
+           y = .data$row_name)
 
   # check if any correaltions would round to 1 and change to 0.9
   correlations$r <- ifelse(correlations$r > 0.9, 0.9, correlations$r)
@@ -79,7 +91,7 @@ corrSolar <- function(data,
 
   # Function to generate points along the circumference of a circle
   circle_points <- function(radius, n_points = 100) {
-    tibble::tibble(
+    tibble(
       x = radius * cos(seq(0, 2 * pi, length.out = n_points)),
       y = radius * sin(seq(0, 2 * pi, length.out = n_points)),
       r = radius

@@ -32,7 +32,9 @@ Creates a static or interactive bar plot displaying correlation values. By hover
 mouse over a bar, the variables and correlation value is shown.
 }
 \examples{
-corrHeatmap(data = mtcars, display = 'all')
+corrBarplot(data = mtcars,
+            method = 'pearson',
+            interactive = TRUE)
 
 
 }

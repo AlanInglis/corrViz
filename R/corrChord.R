@@ -15,8 +15,19 @@
 #'
 #' @importFrom igraph graph_from_data_frame
 #' @importFrom reshape2 melt
+#' @importFrom stats cor
 #' @import ggplot2
 #' @import ggraph
+#'
+#' @examples
+#' corrChord(data = mtcars,
+#'           method = 'pearson',
+#'           threshold = 0.8)
+#'
+#' corrChord(data = mtcars,
+#'           method = 'pearson',
+#'           threshold = 0.8,
+#'           circle = TRUE)
 #'
 #' @export
 #'
@@ -25,6 +36,9 @@ corrChord <- function(data,
                       method = c("pearson", "kendall", "spearman"),
                       threshold = 0,
                       circle = FALSE) {
+
+  # Decalre global vars
+  value <- NULL
 
   # Compute the correlation matrix
   cor_matrix <- cor(data, method = method)

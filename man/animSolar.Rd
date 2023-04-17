@@ -59,3 +59,11 @@ orbit of the animation when setting \code{export = FALSE}. This differs from the
 \code{fps} argument which sets the number of frames to play per second for use
 when exporting a gif.
 }
+\examples{
+animSolar(data = mtcars,
+          method = 'pearson',
+          sun = 'mpg',
+          export = FALSE,
+          num_frames = 25)
+
+}

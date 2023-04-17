@@ -30,3 +30,14 @@ Creates an chord plot displaying correlations.
 \details{
 DEtS hEre!!!
 }
+\examples{
+corrChord(data = mtcars,
+          method = 'pearson',
+          threshold = 0.8)
+
+corrChord(data = mtcars,
+          method = 'pearson',
+          threshold = 0.8,
+          circle = TRUE)
+
+}

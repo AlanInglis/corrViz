@@ -40,11 +40,23 @@
 #' @importFrom dplyr mutate
 #' @importFrom dplyr row_number
 #' @importFrom dplyr n
+#' @importFrom dplyr desc
+#' @importFrom dplyr tibble
 #' @importFrom gganimate transition_manual
 #' @importFrom gganimate animate
 #' @importFrom gganimate anim_save
 #' @importFrom gganimate gifski_renderer
+#' @importFrom stats cor
+#' @importFrom stats reshape
+#' @importFrom stats na.omit
 #' @import ggplot2
+#'
+#' @examples
+#' animSolar(data = mtcars,
+#'           method = 'pearson',
+#'           sun = 'mpg',
+#'           export = FALSE,
+#'           num_frames = 25)
 #'
 #' @export
 animSolar <- function(data,
@@ -70,7 +82,9 @@ animSolar <- function(data,
   df_data <- data.frame(cor_matrix)
 
   # Add row and column names as separate columns
+  df_data$row_name <- NULL
   df_data$row_name <- row.names(cor_matrix)
+  df_data$col_name <- NULL
   df_data$col_name <- colnames(cor_matrix)
 
   # Reshape data frame to long format
@@ -83,12 +97,12 @@ animSolar <- function(data,
   )
 
   correlations <- df_data_long |>
-    filter(col_name == sun) |>
-    arrange(desc(value)) |>
+    filter(.data$col_name == sun) |>
+    arrange(desc(.data$value)) |>
     rename(
-      r = value,
-      x = col_name,
-      y = row_name
+      r = .data$value,
+      x = .data$col_name,
+      y = .data$row_name
     )
   # check if any correaltions would round to 1 and change to 0.9
   correlations$r <- ifelse(correlations$r > 0.9, 0.9, correlations$r)
@@ -114,6 +128,7 @@ animSolar <- function(data,
   ang <- rep(seq(0, 2 * pi, length.out = nframes), seqFrames)
   ang <- ang + rep(correlations$angle, each = nframes)
 
+  y <- x <- r <- id <- orbit_radius <- angle <- frame <- NULL
   solar_system <- data.frame(
     y = rep(correlations$y, each = nframes),
     x = rep(correlations$x, each = nframes),
@@ -128,7 +143,7 @@ animSolar <- function(data,
 
   # Function to generate points along the circumference of a circle
   circle_points <- function(radius, n_points = 100) {
-    tibble::tibble(
+    tibble(
       x = radius * cos(seq(0, 2 * pi, length.out = n_points)),
       y = radius * sin(seq(0, 2 * pi, length.out = n_points)),
       r = radius

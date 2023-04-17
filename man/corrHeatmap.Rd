@@ -9,7 +9,7 @@ corrHeatmap(
   method = c("pearson", "kendall", "spearman"),
   display = c("all", "upper", "lower"),
   reorder = TRUE,
-  pal = colorspace::diverging_hcl(palette = "Blue-Red", n = 100)
+  pal = colorRampPalette(c("darkblue", "white", "darkred"))(100)
 )
 }
 \arguments{
@@ -36,7 +36,9 @@ Creates an interactive heatmap displaying correlation values. By hovering
 mouse over a cell, the variables and correlation value is shown.
 }
 \examples{
-corrHeatmap(data = mtcars, display = 'all')
+corrHeatmap(data = mtcars,
+             method = 'pearson',
+             display = 'all')
 
 
 }

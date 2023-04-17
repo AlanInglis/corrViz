@@ -7,13 +7,20 @@
 #' @param method Which correlation coefficient (or covariance) is to be computed.
 #' One of "pearson" (default), "kendall", or "spearman": can be abbreviated.
 #' @param threshold Filter correlations with an absolute value lower than selected value.
-#' @param tick Whether to display axis ticks.
+#' @param ticks Whether to display axis ticks.
 #' @return A circular chord plot displaying correlations.
 #'
 #' @details DEtS hEre!!!
 #'
 #' @importFrom circlize chordDiagram
 #' @importFrom circlize colorRamp2
+#' @importFrom stats cor
+#'
+#' @examples
+#' corrCircle(data = mtcars,
+#'           method = 'pearson',
+#'           threshold = 0.8)
+#'
 #'
 #' @export
 #'

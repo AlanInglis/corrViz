@@ -19,9 +19,16 @@
 #' @importFrom reshape2 melt
 #' @importFrom DendSer dser
 #' @import ggplot2
+#' @importFrom stats as.dist
+#' @importFrom stats cor
+#' @importFrom stats na.omit
+#' @importFrom stats reshape
+#' @importFrom grDevices colorRampPalette
 #'
 #' @examples
-#' corrHeatmap(data = mtcars, display = 'all')
+#' corrHeatmap(data = mtcars,
+#'              method = 'pearson',
+#'              display = 'all')
 #'
 #'
 #' @export
@@ -30,9 +37,10 @@ corrHeatmap <- function(data,
                         method = c("pearson", "kendall", "spearman"),
                         display = c('all', 'upper', 'lower'),
                         reorder = TRUE,
-                        pal = colorspace::diverging_hcl(palette = "Blue-Red", n = 100)){
+                        pal = colorRampPalette(c("darkblue", 'white', 'darkred'))(100)){
 
-
+  # Declare global vars
+  Var1 <- Var2 <- correlation <- NULL
   # get correlations
   correlations <- cor(data, method = method)
   diag(correlations) <- NA

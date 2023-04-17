@@ -22,9 +22,13 @@
 #' @importFrom reshape2 melt
 #' @importFrom forcats fct_reorder
 #' @import ggplot2
+#' @importFrom stats cor
+#' @importFrom grDevices colorRampPalette
 #'
 #' @examples
-#' corrHeatmap(data = mtcars, display = 'all')
+#' corrBarplot(data = mtcars,
+#'             method = 'pearson',
+#'             interactive = TRUE)
 #'
 #'
 #' @export
@@ -37,6 +41,8 @@ corrBarplot <-  function(data,
                          ){
 
 
+  # declare global vars
+  correlation <- variable1 <- variable2 <- pair <- NULL
   # get triangular correlations
   triangle_correlations <- cor(data) * lower.tri(cor(data))
 

@@ -16,10 +16,14 @@
 #'
 #' @importFrom plotly ggplotly
 #' @importFrom reshape2 melt
+#' @importFrom stats cor
+#' @importFrom grDevices colorRampPalette
 #' @import ggplot2
 #'
 #' @examples
-#' corrBubble(data = mtcars, display = 'all')
+#' corrBubble(data = mtcars,
+#'            method = 'pearson',
+#'            display = 'all')
 #'
 #'
 #' @export
@@ -29,6 +33,8 @@ corrBubble <- function(data,
                         display = c('all', 'upper', 'lower'),
                         pal = colorRampPalette(c("cornflowerblue", 'white', 'tomato'))(100)){
 
+  # declare global vars
+  Var1 <- Var2 <- correlation <- NULL
   correlations <- cor(data, method = method)
   diag(correlations) <- NA
 

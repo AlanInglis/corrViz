@@ -19,7 +19,7 @@ One of "pearson" (default), "kendall", or "spearman": can be abbreviated.}
 
 \item{threshold}{Filter correlations with an absolute value lower than selected value.}
 
-\item{tick}{Whether to display axis ticks.}
+\item{ticks}{Whether to display axis ticks.}
 }
 \value{
 A circular chord plot displaying correlations.
@@ -29,4 +29,11 @@ Creates a circular chord plot displaying correlations.
 }
 \details{
 DEtS hEre!!!
+}
+\examples{
+corrCircle(data = mtcars,
+          method = 'pearson',
+          threshold = 0.8)
+
+
 }

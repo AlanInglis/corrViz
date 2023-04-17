@@ -31,7 +31,9 @@ the weaker the correlation between the explanatory variable
 and the dependent variable.
 }
 \examples{
-corrSolar(mtcars, sun = 'mpg')
+corrSolar(data = mtcars,
+          method = 'pearson',
+          sun = 'mpg')
 
 
 }

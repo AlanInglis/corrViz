@@ -15,7 +15,7 @@ knitr::opts_chunk$set(
 ```
 
 ```{r setup, echo=FALSE}
-library(corrViz)
+suppressPackageStartupMessages(library(corrViz))
 ```
 
 
@@ -71,7 +71,7 @@ corrHeatmap(data = mtcars,
             method = 'pearson',
             display = 'all',
             reorder = TRUE,
-            pal = colorspace::diverging_hcl(palette = "Blue-Red", n = 100))
+            pal = colorRampPalette(c("darkblue", 'white', 'darkred'))(100))
 
 ```
 <center>
