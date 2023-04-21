@@ -10,14 +10,10 @@ Encoding: UTF-8
 Imports: 
     ggplot2,
     stats,
-    dplyr,
     visNetwork,
     plotly,
     DendSer,
-    reshape2,
     gganimate,
-    tidyr,
-    forcats,
     igraph,
     ggraph,
     circlize
