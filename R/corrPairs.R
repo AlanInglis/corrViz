@@ -23,6 +23,8 @@
 #' @importFrom GGally eval_data_col
 #' @importFrom plotly ggplotly
 #' @importFrom plotly style
+#' @importFrom stats cor.test
+#' @importFrom grDevices rainbow
 #'
 #' @examples
 #' corrPairs(data = mtcars[,1:4],
@@ -38,6 +40,9 @@ corrPairs <- function(data,
                method = c("pearson", "kendall", "spearman"),
                interactive = TRUE,
                col_by = NULL) {
+
+  # declare globals
+  cor_fun <- dot_fun <- NULL
 
   # correlation function
   cor_fun <- function(data, mapping, method = "pearson", ndp = 2, sz = 5, stars = TRUE, ...) {

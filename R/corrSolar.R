@@ -40,7 +40,7 @@ corrSolar <- function(data,
 
 
   # declare global vars
-  r <- x <- y <- id <- orbit_radius <- angle <- nam <- nam2 <- NULL
+  r <- x <- y <- id <- orbit_radius <- angle <- nam <- nam2 <- col_name <- NULL
 
   # Calculate correlation matrix
   cor_matrix <- cor(data, method = method)
@@ -87,8 +87,22 @@ corrSolar <- function(data,
   }
 
 
-  # Modify the data.frame to generate circle points for each orbit_radius
-  circle_data <- dplyr::bind_rows(lapply(unique(correlations$orbit_radius), circle_points), .id = "id")
+  # Define a function to apply circle_points and assign an 'id' to each element in the list
+  create_circle_points_df <- function(radius, id) {
+    df <- circle_points(radius)
+    df$id <- id
+    return(df)
+  }
+
+  # Use lapply to apply the create_circle_points_df function to each unique orbit_radius
+  circle_data_list <- mapply(create_circle_points_df,
+                             unique(correlations$orbit_radius),
+                             seq_along(unique(correlations$orbit_radius)),
+                             SIMPLIFY = FALSE)
+
+  # Combine the resulting list of data frames into a single data frame using base R's 'do.call' and 'rbind'
+  circle_data <- do.call(rbind, circle_data_list)
+  circle_data$id <- as.character(circle_data$id)
 
 
   # create df of circle names to display

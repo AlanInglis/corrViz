@@ -37,7 +37,7 @@ corrBarplot <-  function(data,
 
 
   # declare global vars
-  correlation <- variable1 <- variable2 <- pair <- NULL
+  correlation <- variable1 <- variable2 <- pair <- value <- row_name <- col_name <- NULL
   # get triangular correlations
   triangle_correlations <- cor(data) * lower.tri(cor(data))
 
