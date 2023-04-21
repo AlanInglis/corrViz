@@ -287,9 +287,36 @@ corrCircle(data = mtcars,
 <caption><span id="fig13:fig13">Figure 13: </span>Circular correlation plot displaying correlation values with a magnitude above 0.8.</caption>
 </center>
 
-# Scatterplot matrix
+# Scatterplot matrix pairs plot
 
-STILL TO COME!!!
+Our final plot is a scatterplot matrix (or pairs plot) displaying correlation values in the upper triangle of the plot, with the stars representing the correlation significance. The diagonal contains density plots of the data. The lower triangle displays a scatterplot of the data values with a smooth-line (which is coloured according the the correlation value for the variable pair). The additional arguments are:
+ 
+* `interactive`: A logical value indicating whether the output plot should be interactive (TRUE) or static (FALSE). Default is TRUE.
+* `col_by`: An optional character string specifying the name of the column in the data frame to be used for coloring points. Default is NULL.
+
+Figure 14 shows an interactive scatterplot for the first 5 variables found in the `mtcars` dataset. In this case, the scatterplot points are coloured by the variable `cyl`. 
+
+```{r, sp, fig.align='center', out.width='100%', out.height='100%', warning=FALSE}
+corrPairs(data = mtcars[,1:4],
+         method = "pearson",
+         interactive = TRUE,
+         col_by = "cyl")
+
+```
+<center>
+<caption><span id="fig14:fig14">Figure 14: </span>Correlation pairs plot for the first five variables from the `mtcars` dataset.</caption>
+</center>
+
+
+# Coverting a correlation matrix to data frame
+
+Often it can be useful to convert a matrix to a long-format data frame. The `martrix2long` function provides just that. The only input is a matrix. Below a demonstartion is shown for the first four colummns of the `mtcars` data. 
+
+```{r, m2df}
+corr_matrix <- cor(mtcars[1:4])
+long_data_frame <- matrix2long(mat = corr_matrix)
+long_data_frame
+```
 
 
 # Conclusion
