@@ -1,5 +1,6 @@
 ^.*\.Rproj$
 ^\.Rproj\.user$
 ^docs$
+^doc$
 ^badge$
 ^README\.Rmd$
