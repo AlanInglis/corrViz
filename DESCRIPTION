@@ -16,7 +16,8 @@ Imports:
     gganimate,
     igraph,
     ggraph,
-    circlize
+    circlize,
+    GGally
 LazyData: true
 RoxygenNote: 7.2.1
 Suggests: 
