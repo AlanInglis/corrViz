@@ -1,16 +1,21 @@
 #' corrCircle
 #'
-#' Creates a circular chord plot displaying correlations.
+#' This function creates a circular plot of correlations between variables in a dataset.
 #'
+#' @param data A dataframe containing the data to be analyzed.
+#' @param method A character string specifying the correlation method. One of
+#'   "pearson", "kendall", or "spearman". Default is "pearson".
+#' @param threshold A numeric value indicating the minimum absolute correlation
+#'  value to display in the plot.
+#' @param ticks A logical value indicating whether to display ticks (TRUE) or not (FALSE),
+#'  default is FALSE.
 #'
-#' @param data A data frame.
-#' @param method Which correlation coefficient (or covariance) is to be computed.
-#' One of "pearson" (default), "kendall", or "spearman": can be abbreviated.
-#' @param threshold Filter correlations with an absolute value lower than selected value.
-#' @param ticks Whether to display axis ticks.
-#' @return A circular chord plot displaying correlations.
+#' @return A circular chord plot object displaying the correlations between variables.
 #'
-#' @details DEtS hEre!!!
+#' @details When using a large amount of data, this plot can quickly become over
+#' complicated. It is recommended to filter the correlations using the \code{threshold}
+#' argument to simplify the visualisation.
+#'
 #'
 #' @importFrom circlize chordDiagram
 #' @importFrom circlize colorRamp2

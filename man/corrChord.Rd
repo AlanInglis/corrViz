@@ -12,23 +12,27 @@ corrChord(
 )
 }
 \arguments{
-\item{data}{A data frame.}
+\item{data}{A dataframe containing the data to be analyzed.}
 
-\item{method}{Which correlation coefficient (or covariance) is to be computed.
-One of "pearson" (default), "kendall", or "spearman": can be abbreviated.}
+\item{method}{A character string specifying the correlation method. One of
+"pearson", "kendall", or "spearman". Default is "pearson".}
 
-\item{threshold}{Filter correlations with an absolute value lower than selected value.}
+\item{threshold}{A numeric value indicating the minimum absolute
+correlation value to display in the plot.}
 
-\item{circle}{If TRUE then plot is displayed as a circle.}
+\item{circle}{A logical value indicating whether to use a circular
+layout (TRUE) or linear layout (FALSE), default is FALSE.}
 }
 \value{
 A chord plot displaying correlations.
 }
 \description{
-Creates an chord plot displaying correlations.
+This function creates a chord plot of correlations between variables in a dataset.
 }
 \details{
-DEtS hEre!!!
+When using a large amount of data, this plot can quickly become over
+complicated. It is recommended to filter the correlations using the \code{threshold}
+argument to simplify the visualisation.
 }
 \examples{
 corrChord(data = mtcars,

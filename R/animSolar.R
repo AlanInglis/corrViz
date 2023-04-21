@@ -1,20 +1,22 @@
 #' animSolar
 #'
-#' Creates an animated solar system correlation plot.
+#' This function creates an animated solar system plot of correlations between
+#' variables in a dataset.
 #'
-#' @param data A data frame.
-#' @param method Which correlation coefficient (or covariance) is to be computed.
-#' One of "pearson" (default), "kendall", or "spearman": can be abbreviated.
-#' @param sun A variable name to be chosen as the dependent variable.
-#' @param export If TRUE, then the animation is exported to the user's machine.
-#' If FALSE (default), then the animation is played in the viewer window.
-#' @param num_frames The number of frames.
-#' @param path Path of the directory to save plot to. Defaults to the working directory.
-#' @param gif_name File name to create on disk. Must be in the format "myFile.gif"
-#' @param fps The frame rate of the exported animation in frames/sec. Default is 60 fps and
-#' is only used when exporting a gif via \code{export = TRUE}.
+#' @param data A dataframe containing the data to be analyzed.
+#' @param method A character string specifying the correlation method. One of
+#'   "pearson", "kendall", or "spearman". Default is "pearson".
+#' @param sun A character string specifying the column name in the dataset to be treated
+#' as the 'sun' in the solar system plot.
+#' @param export A logical value specifying whether to export the animation as a GIF file, default is FALSE.
+#' @param num_frames An integer specifying the number of frames in the animation, default is 100.
+#' @param path A character string specifying the directory path where the GIF file will be saved, default is NULL.
+#' @param gif_name A character string specifying the name of the GIF file. Must be in the format "myFile.gif"
+#' @param fps An integer specifying the frames per second for the animation.
+#' Default is 60 and is only used when exporting a gif via \code{export = TRUE}.
 #'
-#'@details In a solar system correlation plot, the dependent variable of
+#'
+#' @details In a solar system correlation plot, the dependent variable of
 #' interest is positioned at the center, represented as the sun.
 #' The explanatory variables are depicted as planets orbiting
 #' around the sun, with their distance from the sun corresponding
@@ -34,20 +36,11 @@
 #' @return An animated solar system plot displaying correlations.
 #'
 #'
-#' @importFrom dplyr filter
-#' @importFrom dplyr arrange
-#' @importFrom dplyr rename
-#' @importFrom dplyr mutate
-#' @importFrom dplyr row_number
-#' @importFrom dplyr n
-#' @importFrom dplyr desc
-#' @importFrom dplyr tibble
 #' @importFrom gganimate transition_manual
 #' @importFrom gganimate animate
 #' @importFrom gganimate anim_save
 #' @importFrom gganimate gifski_renderer
 #' @importFrom stats cor
-#' @importFrom stats reshape
 #' @importFrom stats na.omit
 #' @import ggplot2
 #'
@@ -74,50 +67,45 @@ animSolar <- function(data,
     }
   }
 
+  # declare global vars
+  colr <- NULL
+
   # Calculate correlation matrix
   cor_matrix <- cor(data, method = method)
   diag(cor_matrix) <- NA
 
   # Convert matrix to data frame
-  df_data <- data.frame(cor_matrix)
+  df_data_long <- matrix2long(cor_matrix)
 
-  # Add row and column names as separate columns
-  df_data$row_name <- NULL
-  df_data$row_name <- row.names(cor_matrix)
-  df_data$col_name <- NULL
-  df_data$col_name <- colnames(cor_matrix)
+  # Filter rows where col_name equals 'sun'
+  df_data_filtered <- subset(df_data_long, col_name == sun)
 
-  # Reshape data frame to long format
-  df_data_long <- reshape(df_data,
-    direction = "long",
-    varying = list(colnames(cor_matrix)),
-    v.names = "value",
-    timevar = "col_name",
-    times = colnames(cor_matrix)
-  )
+  # Order rows by 'value' column in descending order
+  df_data_ordered <- df_data_filtered[order(df_data_filtered$value, decreasing = TRUE),]
 
-  correlations <- df_data_long |>
-    filter(.data$col_name == sun) |>
-    arrange(desc(.data$value)) |>
-    rename(
-      r = .data$value,
-      x = .data$col_name,
-      y = .data$row_name
-    )
+  # Rename columns
+  names(df_data_ordered)[names(df_data_ordered) == "value"] <- "r"
+  names(df_data_ordered)[names(df_data_ordered) == "col_name"] <- "x"
+  names(df_data_ordered)[names(df_data_ordered) == "row_name"] <- "y"
+
+  # Assign the result to correlations
+  correlations <- df_data_ordered
+
   # check if any correaltions would round to 1 and change to 0.9
   correlations$r <- ifelse(correlations$r > 0.9, 0.9, correlations$r)
 
 
   # Assign orbit radius based on absolute, rounded correlation values
   correlations$r <- round(correlations$r, 1)
-  correlations <- correlations |>
-    mutate(
-      orbit_radius = 1 - round(abs(r), 1),
-      angle = 2 * pi * row_number() / n()
-    )
+  # Calculate new columns 'orbit_radius' and 'angle'
+  correlations <- transform(correlations,
+                            orbit_radius = 1 - round(abs(r), 1),
+                            angle = 2 * pi * seq_len(nrow(correlations)) / nrow(correlations)
+  )
+
 
   # add correlation colour
-  correlations$col <- ifelse(correlations$r <= 0, "blue", "red")
+  correlations$colr <- ifelse(correlations$r <= 0, "blue", "red")
   correlations <- na.omit(correlations)
 
   # create animated plot
@@ -136,14 +124,14 @@ animSolar <- function(data,
     id = rep(correlations$id, each = nframes),
     orbit_radius = rep(correlations$orbit_radius, each = nframes),
     angle = ang,
-    col = rep(correlations$col, each = nframes),
+    colr = rep(correlations$colr, each = nframes),
     frame = rep(1:nframes, seqFrames)
   )
 
 
   # Function to generate points along the circumference of a circle
   circle_points <- function(radius, n_points = 100) {
-    tibble(
+    data.frame(
       x = radius * cos(seq(0, 2 * pi, length.out = n_points)),
       y = radius * sin(seq(0, 2 * pi, length.out = n_points)),
       r = radius
@@ -168,7 +156,7 @@ animSolar <- function(data,
         x = orbit_radius * cos(angle),
         y = orbit_radius * sin(angle),
         size = 3,
-        color = y,
+        color = colr,
         frame = frame,
         label = r
       ), alpha = 0.8) +

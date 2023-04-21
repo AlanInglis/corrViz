@@ -1,12 +1,14 @@
 #' corrBarplot
 #'
-#' Creates either a static or interactive bar plot displaying correlations.
+#' This function creates a either a static or interactive
+#' bar plot of correlations between variables in a dataset.
 #'
-#' @param data A data frame.
-#' @param method Which correlation coefficient (or covariance) is to be computed.
-#' One of "pearson" (default), "kendall", or "spearman": can be abbreviated.
-#' @param interactive If TRUE then an interactive version of the barplot is displayed.
-#' @param pal The colour palette to use for displaying values.
+#' @param data A dataframe containing the data to be analyzed.
+#' @param method A character string specifying the correlation method. One of
+#'   "pearson", "kendall", or "spearman". Default is "pearson".
+#' @param interactive A logical value specifying whether to create an interactive ggplotly plot,
+#' default is TRUE
+#' @param pal A colour palette for the bar plot, default is colorRampPalette(c("cornflowerblue", "white", "tomato"))(100).
 #'
 #' @return A static or interactive bar plot displaying correlations.
 #'
@@ -14,13 +16,6 @@
 #' mouse over a bar, the variables and correlation value is shown.
 #'
 #' @importFrom plotly ggplotly
-#' @importFrom tidyr pivot_longer
-#' @importFrom dplyr as_tibble
-#' @importFrom dplyr filter
-#' @importFrom dplyr mutate
-#' @importFrom dplyr as_tibble
-#' @importFrom reshape2 melt
-#' @importFrom forcats fct_reorder
 #' @import ggplot2
 #' @importFrom stats cor
 #' @importFrom grDevices colorRampPalette
@@ -36,7 +31,7 @@
 
 corrBarplot <-  function(data,
                          method = c("pearson", "kendall", "spearman"),
-                         interactive = FALSE,
+                         interactive = TRUE,
                          pal = colorRampPalette(c("cornflowerblue", 'white', 'tomato'))(100)
                          ){
 
@@ -47,17 +42,30 @@ corrBarplot <-  function(data,
   triangle_correlations <- cor(data) * lower.tri(cor(data))
 
   # reshape and add name column
-  correlations <- triangle_correlations |>
-    as_tibble(rownames = 'variable1') |>
-    pivot_longer(cols = -1, names_to = 'variable2', values_to = 'correlation') |>
-    filter(abs(correlation) > 0) |>
-    mutate(
-      pair = paste(variable1, variable2, sep = ' + '),
-      pair = forcats::fct_reorder(pair, correlation)
-    )
+  correlations_long <- matrix2long(triangle_correlations)
 
+
+  # Filter rows with an absolute 'correlation' value greater than 0
+  correlations_filtered <- subset(correlations_long, abs(value) > 0)
+
+  # Add a new column 'pair' and reorder the data frame based on the 'correlation' column
+  correlations_transformed <- transform(correlations_filtered,
+                                        pair = paste(row_name, col_name, sep = " + "))
+
+
+  correlations_transformed$pair <- factor(correlations_transformed$pair,
+                                          levels = correlations_transformed$pair[order(correlations_transformed$value)])
+
+  # Assign the result to correlations
+  correlations <- correlations_transformed
+
+  # Rename columns
+  names(correlations)[1:3] <- c('variable1', 'variable2', 'correlation')
+
+  # Round values
   correlations$correlation <- round(correlations$correlation, 3)
 
+  # Plot function
   plotFun <- function(nudge){
     pp <- correlations  |>
       ggplot(aes(y = pair, x = correlation, fill = correlation)) +
@@ -81,7 +89,6 @@ corrBarplot <-  function(data,
       theme(axis.title.y=element_blank(),
             axis.text.y=element_blank(),
             axis.ticks.y=element_blank())
-    return(pp)
   }
 
 

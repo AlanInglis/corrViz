@@ -7,18 +7,20 @@
 corrSolar(data, method = c("pearson", "kendall", "spearman"), sun = NULL)
 }
 \arguments{
-\item{data}{A data frame.}
+\item{data}{A dataframe containing the data to be analyzed.}
 
-\item{method}{Which correlation coefficient (or covariance) is to be computed.
-One of "pearson" (default), "kendall", or "spearman": can be abbreviated.}
+\item{method}{A character string specifying the correlation method. One of
+"pearson", "kendall", or "spearman". Default is "pearson".}
 
-\item{sun}{A variable name to be chosen as the dependent variable.}
+\item{sun}{A character string specifying the column name in the dataset to
+be treated as the 'sun' in the solar system plot.}
 }
 \value{
 An solar system plot displaying correlations.
 }
 \description{
-Creates a solar system correlation plot.
+This function creates a solar system plot of correlations between
+variables in a dataset.
 }
 \details{
 In a solar system correlation plot, the dependent variable of

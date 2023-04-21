@@ -1,11 +1,13 @@
 #' corrSolar
 #'
-#' Creates a solar system correlation plot.
+#' This function creates a solar system plot of correlations between
+#' variables in a dataset.
 #'
-#' @param data A data frame.
-#' @param method Which correlation coefficient (or covariance) is to be computed.
-#' One of "pearson" (default), "kendall", or "spearman": can be abbreviated.
-#' @param sun A variable name to be chosen as the dependent variable.
+#' @param data A dataframe containing the data to be analyzed.
+#' @param method A character string specifying the correlation method. One of
+#'   "pearson", "kendall", or "spearman". Default is "pearson".
+#' @param sun A character string specifying the column name in the dataset to
+#' be treated as the 'sun' in the solar system plot.
 #'
 #' @return An solar system plot displaying correlations.
 #'
@@ -18,14 +20,6 @@
 #' the weaker the correlation between the explanatory variable
 #' and the dependent variable.
 #'
-#' @importFrom dplyr filter
-#' @importFrom dplyr arrange
-#' @importFrom dplyr rename
-#' @importFrom dplyr mutate
-#' @importFrom dplyr row_number
-#' @importFrom dplyr n
-#' @importFrom dplyr desc
-#' @importFrom dplyr tibble
 #' @importFrom stats cor
 #' @importFrom stats reshape
 #' @importFrom stats na.omit
@@ -53,37 +47,31 @@ corrSolar <- function(data,
   diag(cor_matrix) <- NA
 
   # Convert matrix to data frame
-  df_data <- data.frame(cor_matrix)
+  df_data_long <- matrix2long(cor_matrix)
 
-  # Add row and column names as separate columns
-  df_data$row_name <- NULL
-  df_data$row_name <- row.names(cor_matrix)
-  df_data$col_name <- NULL
-  df_data$col_name <- colnames(cor_matrix)
+  # Filter rows where col_name equals 'sun'
+  df_data_filtered <- subset(df_data_long, col_name == sun)
 
-  # Reshape data frame to long format
-  df_data_long <- reshape(df_data,
-                          direction = "long",
-                          varying = list(colnames(cor_matrix)),
-                          v.names = "value",
-                          timevar = "col_name",
-                          times = colnames(cor_matrix))
+  # Order rows by 'value' column in descending order
+  df_data_ordered <- df_data_filtered[order(df_data_filtered$value, decreasing = TRUE),]
 
-  correlations <- df_data_long |>
-    filter(.data$col_name == sun) |>
-    arrange(desc(.data$value)) |>
-    rename(r = .data$value,
-           x = .data$col_name,
-           y = .data$row_name)
+  # Rename columns
+  names(df_data_ordered)[names(df_data_ordered) == "value"] <- "r"
+  names(df_data_ordered)[names(df_data_ordered) == "col_name"] <- "x"
+  names(df_data_ordered)[names(df_data_ordered) == "row_name"] <- "y"
+
+  # Assign the result to correlations
+  correlations <- df_data_ordered
 
   # check if any correaltions would round to 1 and change to 0.9
   correlations$r <- ifelse(correlations$r > 0.9, 0.9, correlations$r)
 
   # Assign orbit radius based on absolute, rounded correlation values
   correlations$r <- round(correlations$r, 1)
-  correlations <- correlations |>
-    mutate(orbit_radius = 1 - round(abs(r), 1),
-           angle = 2 * pi * row_number() / n())
+  correlations <- transform(correlations,
+                             orbit_radius = 1 - round(abs(r), 1),
+                             angle = 2 * pi * seq_len(nrow(correlations)) / nrow(correlations)
+  )
 
   # add correlation colour
   correlations$col <- ifelse(correlations$r <= 0, "blue", "red")
@@ -91,7 +79,7 @@ corrSolar <- function(data,
 
   # Function to generate points along the circumference of a circle
   circle_points <- function(radius, n_points = 100) {
-    tibble(
+    data.frame(
       x = radius * cos(seq(0, 2 * pi, length.out = n_points)),
       y = radius * sin(seq(0, 2 * pi, length.out = n_points)),
       r = radius

@@ -7,25 +7,27 @@
 corrBarplot(
   data,
   method = c("pearson", "kendall", "spearman"),
-  interactive = FALSE,
+  interactive = TRUE,
   pal = colorRampPalette(c("cornflowerblue", "white", "tomato"))(100)
 )
 }
 \arguments{
-\item{data}{A data frame.}
+\item{data}{A dataframe containing the data to be analyzed.}
 
-\item{method}{Which correlation coefficient (or covariance) is to be computed.
-One of "pearson" (default), "kendall", or "spearman": can be abbreviated.}
+\item{method}{A character string specifying the correlation method. One of
+"pearson", "kendall", or "spearman". Default is "pearson".}
 
-\item{interactive}{If TRUE then an interactive version of the barplot is displayed.}
+\item{interactive}{A logical value specifying whether to create an interactive ggplotly plot,
+default is TRUE}
 
-\item{pal}{The colour palette to use for displaying values.}
+\item{pal}{A colour palette for the bar plot, default is colorRampPalette(c("cornflowerblue", "white", "tomato"))(100).}
 }
 \value{
 A static or interactive bar plot displaying correlations.
 }
 \description{
-Creates either a static or interactive bar plot displaying correlations.
+This function creates a either a static or interactive
+bar plot of correlations between variables in a dataset.
 }
 \details{
 Creates a static or interactive bar plot displaying correlation values. By hovering

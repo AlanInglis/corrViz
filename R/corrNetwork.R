@@ -1,17 +1,17 @@
 #' corrNetwork
 #'
-#' Creates an interactive network plot displaying correlations.
+#' Creates an interactive Correlation Network Visualization
 #'
-#'
-#' @param data A data frame.
-#' @param method Which correlation coefficient (or covariance) is to be computed.
-#' One of "pearson" (default), "kendall", or "spearman": can be abbreviated.
-#' @param threshold Filter correlations with an absolute value lower than selected value.
-#' @param layout Use an \code{igraph} layout to display network.
+#' @param data A data frame or matrix containing the input data for the correlation calculation.
+#' @param method A character string specifying the correlation method. One of
+#'   "pearson", "kendall", or "spearman". Default is "pearson".
+#' @param threshold A numeric value indicating the minimum absolute correlation
+#'  value to display in the plot.
+#' @param layout Any \code{igraph} layout to display the network.
 #' @param width The width of the viewing window.
 #' @param height The height of the viewing window.
-#' @param physics If TRUE (the default) then physics is enabled on nodes. This may
-#' affect the selected layout.
+#' @param physics A logical value indicating whether to use physics-based layout. Default is TRUE.
+#'
 #' @return A network plot displaying correlations.
 #'
 #' @details Each node in the network represents a variable where the width of
@@ -19,8 +19,6 @@
 #' correlations have red coloured edges whereas negative correlations have blue coloured
 #' edges.
 #'
-#' @importFrom dplyr filter
-#' @importFrom dplyr mutate
 #' @importFrom visNetwork visNetwork
 #' @importFrom visNetwork visOptions
 #' @importFrom visNetwork visInteraction
@@ -31,7 +29,6 @@
 #' @importFrom visNetwork visPhysics
 #' @importFrom stats cor
 #' @importFrom stats na.omit
-#' @importFrom stats reshape
 #'
 #' @examples
 #' corrNetwork(data = iris[,1:4], threshold = 0.5)
@@ -52,7 +49,7 @@ corrNetwork <- function(data,
                         physics = TRUE) {
 
   # declare global vars
-  value <- val <- NULL
+  value <- val <- col_name <- row_name <- NULL
 
   if (threshold > 1 | threshold < -1) {
     stop("threshold must be in the range [-1,1]")
@@ -63,39 +60,51 @@ corrNetwork <- function(data,
   diag(cor_matrix) <- NA
 
   # Convert matrix to data frame
-  df_data <- data.frame(cor_matrix)
+  df_data <- matrix2long(cor_matrix)
 
-  # Add row and column names as separate columns
-  df_data$row_name <- NULL
-  df_data$row_name <- row.names(cor_matrix)
-  df_data$col_name <- NULL
-  df_data$col_name <- colnames(cor_matrix)
-
-  # Reshape data frame to long format
-  df_data_long <- reshape(df_data,
-    direction = "long",
-    varying = list(colnames(cor_matrix)),
-    v.names = "value",
-    timevar = "col_name",
-    times = colnames(cor_matrix)
-  )
+  # # Add row and column names as separate columns
+  # df_data$row_name <- NULL
+  # df_data$row_name <- row.names(cor_matrix)
+  # df_data$col_name <- NULL
+  # df_data$col_name <- colnames(cor_matrix)
+  #
+  # # Reshape data frame to long format
+  # df_data_long <- reshape(df_data,
+  #   direction = "long",
+  #   varying = list(colnames(cor_matrix)),
+  #   v.names = "value",
+  #   timevar = "col_name",
+  #   times = colnames(cor_matrix)
+  # )
 
   # turn into long df
-  new_df <- df_data_long
-  new_df <- na.omit(new_df)
-  new_df <- subset(new_df, !duplicated(value))
+  #new_df <- df_data_long
+  new_df <- na.omit(df_data)
+  new_df <- subset(new_df, !duplicated(value)) #NOTE POSSIBLE ERROR HERE IF  2 VARS HAVE SAME COR
 
   nodes <- data.frame(id = 1:length(names(data)), label = names(data))
 
-  edges <- new_df |>
-    filter(.data$value < -threshold | .data$value > threshold) |>
-    mutate(
-      from = match(.data$col_name, nodes$label),
-      to = match(.data$row_name, nodes$label),
-      val = abs(.data$value),
-      value = .data$value,
-      width = abs(val) * 10
-    )
+  # edges <- new_df |>
+  #   filter(value < -threshold | value > threshold) |>
+  #   mutate(
+  #     from = match(col_name, nodes$label),
+  #     to = match(row_name, nodes$label),
+  #     val = abs(value),
+  #     value = value,
+  #     width = abs(val) * 10
+  #   )
+
+
+  filtered_df <- subset(new_df, value < -threshold | value > threshold)
+
+  # Add new columns 'from', 'to', 'val', 'value', and 'width'
+  edges <- transform(filtered_df,
+                     from = match(col_name, nodes$label),
+                     to = match(row_name, nodes$label),
+                     val = abs(value),
+                     value = value,
+                     width = abs(value) * 10
+  )
 
   rownames(edges) <- NULL
   edges$id <- NULL

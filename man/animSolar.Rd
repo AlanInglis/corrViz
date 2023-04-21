@@ -16,30 +16,31 @@ animSolar(
 )
 }
 \arguments{
-\item{data}{A data frame.}
+\item{data}{A dataframe containing the data to be analyzed.}
 
-\item{method}{Which correlation coefficient (or covariance) is to be computed.
-One of "pearson" (default), "kendall", or "spearman": can be abbreviated.}
+\item{method}{A character string specifying the correlation method. One of
+"pearson", "kendall", or "spearman". Default is "pearson".}
 
-\item{sun}{A variable name to be chosen as the dependent variable.}
+\item{sun}{A character string specifying the column name in the dataset to be treated
+as the 'sun' in the solar system plot.}
 
-\item{export}{If TRUE, then the animation is exported to the user's machine.
-If FALSE (default), then the animation is played in the viewer window.}
+\item{export}{A logical value specifying whether to export the animation as a GIF file, default is FALSE.}
 
-\item{num_frames}{The number of frames.}
+\item{num_frames}{An integer specifying the number of frames in the animation, default is 100.}
 
-\item{path}{Path of the directory to save plot to. Defaults to the working directory.}
+\item{path}{A character string specifying the directory path where the GIF file will be saved, default is NULL.}
 
-\item{gif_name}{File name to create on disk. Must be in the format "myFile.gif"}
+\item{gif_name}{A character string specifying the name of the GIF file. Must be in the format "myFile.gif"}
 
-\item{fps}{The frame rate of the exported animation in frames/sec. Default is 60 fps and
-is only used when exporting a gif via \code{export = TRUE}.}
+\item{fps}{An integer specifying the frames per second for the animation.
+Default is 60 and is only used when exporting a gif via \code{export = TRUE}.}
 }
 \value{
 An animated solar system plot displaying correlations.
 }
 \description{
-Creates an animated solar system correlation plot.
+This function creates an animated solar system plot of correlations between
+variables in a dataset.
 }
 \details{
 In a solar system correlation plot, the dependent variable of

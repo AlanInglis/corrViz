@@ -1,13 +1,14 @@
 #' corrBubble
 #'
-#' Creates an interactive bubble plot displaying correlations.
+#' This function creates an interactive bubble plot of
+#' correlations between variables in a dataset.
 #'
-#' @param data A data frame.
-#' @param method Which correlation coefficient (or covariance) is to be computed.
-#' One of "pearson" (default), "kendall", or "spearman": can be abbreviated.
-#' @param display Choose to display the upper, lower, or full matrix of values using
-#' "upper", "lower", or "all", respectively.
-#' @param pal The colour palette to use for displaying values.
+#' @param data A dataframe containing the data to be analyzed.
+#' @param method A character string specifying the correlation method. One of
+#'   "pearson", "kendall", or "spearman". Default is "pearson".
+#' @param display A character vector specifying which part of the correlation
+#' matrix to display: 'all', 'upper', or 'lower', default is 'all'.
+#' @param pal A color palette for the bubble plot.
 #'
 #' @return An interactive bubble plot displaying correlations.
 #'
@@ -15,7 +16,6 @@
 #' mouse over a cell, the variables and correlation value is shown.
 #'
 #' @importFrom plotly ggplotly
-#' @importFrom reshape2 melt
 #' @importFrom stats cor
 #' @importFrom grDevices colorRampPalette
 #' @import ggplot2
@@ -34,7 +34,7 @@ corrBubble <- function(data,
                         pal = colorRampPalette(c("cornflowerblue", 'white', 'tomato'))(100)){
 
   # declare global vars
-  Var1 <- Var2 <- correlation <- NULL
+  row_name <- col_name <- correlation <- NULL
   correlations <- cor(data, method = method)
   diag(correlations) <- NA
 
@@ -43,9 +43,10 @@ corrBubble <- function(data,
 
   switch(display,
          "lower" = {
-           correlations[lower.tri(correlations, diag = TRUE)] <- NA
+           correlations[upper.tri(correlations, diag = TRUE)] <- NA
          },
-         "upper" = {correlations[upper.tri(correlations, diag = TRUE)] <- NA
+         "upper" = {
+           correlations[lower.tri(correlations, diag = TRUE)] <- NA
          },
          "all" = {
            correlations <- correlations
@@ -53,7 +54,7 @@ corrBubble <- function(data,
 
 
   # turn into df
-  dfm <- reshape2::melt(correlations)
+  dfm <- matrix2long(correlations)
   colnames(dfm)[3] <- "correlation"
   dfm$col <- ifelse(dfm$correlation <= 0, "blue", "red")
 
@@ -61,16 +62,16 @@ corrBubble <- function(data,
 
   # order factors
   label_names <- colnames(correlations)
-  dfm$Var1 <- factor(dfm$Var1, levels = label_names)
-  dfm$Var2 <- factor(dfm$Var2, levels = label_names)
+  dfm$row_name <- factor(dfm$row_name, levels = label_names)
+  dfm$col_name <- factor(dfm$col_name, levels = label_names)
   dfm$correlation <- round(dfm$correlation, 3)
 
   # create plot
   bubble_chart <-  ggplot() +
-    geom_point(mapping = aes(x = Var1, y = Var2, color = correlation),
+    geom_point(mapping = aes(x = col_name, y = row_name, color = correlation),
                data = dfm,  size = abs(dfm$correlation)*10) +
     scale_x_discrete(position = "top") +
-    scale_y_discrete(limits = rev(levels(dfm$Var2))) +
+    scale_y_discrete(limits = rev(levels(dfm$col_name))) +
     scale_color_gradientn(colors = pal,
                           na.value = 'black',
                           guide = 'colorbar',
@@ -83,7 +84,7 @@ corrBubble <- function(data,
 
 
   # create interactive plot
-  p <- ggplotly(bubble_chart,  tooltip = c("Var1", "Var2", 'correlation'))
+  p <- ggplotly(bubble_chart,  tooltip = c("row_name", "col_name", 'correlation'))
 
   return(p)
 }

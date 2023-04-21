@@ -12,21 +12,22 @@ corrBubble(
 )
 }
 \arguments{
-\item{data}{A data frame.}
+\item{data}{A dataframe containing the data to be analyzed.}
 
-\item{method}{Which correlation coefficient (or covariance) is to be computed.
-One of "pearson" (default), "kendall", or "spearman": can be abbreviated.}
+\item{method}{A character string specifying the correlation method. One of
+"pearson", "kendall", or "spearman". Default is "pearson".}
 
-\item{display}{Choose to display the upper, lower, or full matrix of values using
-"upper", "lower", or "all", respectively.}
+\item{display}{A character vector specifying which part of the correlation
+matrix to display: 'all', 'upper', or 'lower', default is 'all'.}
 
-\item{pal}{The colour palette to use for displaying values.}
+\item{pal}{A color palette for the bubble plot.}
 }
 \value{
 An interactive bubble plot displaying correlations.
 }
 \description{
-Creates an interactive bubble plot displaying correlations.
+This function creates an interactive bubble plot of
+correlations between variables in a dataset.
 }
 \details{
 Creates an interactive bubble plot displaying correlation values. By hovering

@@ -1,14 +1,15 @@
 #' corrHeatmap
 #'
-#' Creates an interactive heatmap plot displaying correlations.
+#' This function creates an interactive heatmap of correlations between variables in a dataset.
 #'
-#' @param data A data frame.
-#' @param method Which correlation coefficient (or covariance) is to be computed.
-#' One of "pearson" (default), "kendall", or "spearman": can be abbreviated.
-#' @param display Choose to display the upper, lower, or full matrix of values using
-#' "upper", "lower", or "all", respectively.
-#' @param reorder If TRUE (the default) then the heatmap is reordered to group correlations.
-#' @param pal The colour palette to use for displaying values.
+#' @param data A dataframe containing the data to be analyzed.
+#' @param method A character string specifying the correlation method. One of
+#'   "pearson", "kendall", or "spearman". Default is "pearson".
+#' @param display A character vector specifying which part of the correlation matrix to
+#' display: 'all', 'upper', or 'lower', default is 'all'.
+#' @param reorder A logical value indicating whether to reorder the heatmap based
+#' on hierarchical clustering, default is TRUE.
+#' @param pal A color palette for the heatmap.
 #'
 #' @return An interactive heatmap plot displaying correlations.
 #'
@@ -16,13 +17,10 @@
 #' mouse over a cell, the variables and correlation value is shown.
 #'
 #' @importFrom plotly ggplotly
-#' @importFrom reshape2 melt
 #' @importFrom DendSer dser
 #' @import ggplot2
 #' @importFrom stats as.dist
 #' @importFrom stats cor
-#' @importFrom stats na.omit
-#' @importFrom stats reshape
 #' @importFrom grDevices colorRampPalette
 #'
 #' @examples
@@ -40,7 +38,7 @@ corrHeatmap <- function(data,
                         pal = colorRampPalette(c("darkblue", 'white', 'darkred'))(100)){
 
   # Declare global vars
-  Var1 <- Var2 <- correlation <- NULL
+  row_name <- col_name <- correlation <- NULL
   # get correlations
   correlations <- cor(data, method = method)
   diag(correlations) <- NA
@@ -78,22 +76,25 @@ corrHeatmap <- function(data,
          })
 
   # turn into df
-  dfm <- reshape2::melt(correlations)
+  dfm <- matrix2long(correlations)
   colnames(dfm)[3] <- "correlation"
   dfm$correlation <- round(dfm$correlation, 3)
 
   # order factors
   label_names <- colnames(correlations)
-  dfm$Var1 <- factor(dfm$Var1, levels = label_names)
-  dfm$Var2 <- factor(dfm$Var2, levels = label_names)
+  dfm$row_name <- factor(dfm$row_name, levels = label_names)
+  dfm$col_name <- factor(dfm$col_name, levels = label_names)
 
   # Plot heatmap using ggplot2
-  p <- ggplot(dfm, aes(x = Var1, y = Var2, fill = correlation)) +
+  p <- ggplot(dfm, aes(x = row_name, y = col_name, fill = correlation)) +
     geom_tile() +
     scale_x_discrete(position = "top") +
-    scale_y_discrete(limits = rev(levels(dfm$Var2))) +
+    scale_y_discrete(limits = rev(levels(dfm$col_name))) +
     scale_fill_gradientn(
-      colors = pal, limits = c(-1,1), name = "Correlation",
+      colors = pal,
+      limits = c(-1,1),
+      name = "Correlation",
+      aesthetics = 'fill',
       guide = guide_colorbar(
         order = 1,
         frame.colour = "black",

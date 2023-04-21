@@ -12,23 +12,27 @@ corrCircle(
 )
 }
 \arguments{
-\item{data}{A data frame.}
+\item{data}{A dataframe containing the data to be analyzed.}
 
-\item{method}{Which correlation coefficient (or covariance) is to be computed.
-One of "pearson" (default), "kendall", or "spearman": can be abbreviated.}
+\item{method}{A character string specifying the correlation method. One of
+"pearson", "kendall", or "spearman". Default is "pearson".}
 
-\item{threshold}{Filter correlations with an absolute value lower than selected value.}
+\item{threshold}{A numeric value indicating the minimum absolute correlation
+value to display in the plot.}
 
-\item{ticks}{Whether to display axis ticks.}
+\item{ticks}{A logical value indicating whether to display ticks (TRUE) or not (FALSE),
+default is FALSE.}
 }
 \value{
-A circular chord plot displaying correlations.
+A circular chord plot object displaying the correlations between variables.
 }
 \description{
-Creates a circular chord plot displaying correlations.
+This function creates a circular plot of correlations between variables in a dataset.
 }
 \details{
-DEtS hEre!!!
+When using a large amount of data, this plot can quickly become over
+complicated. It is recommended to filter the correlations using the \code{threshold}
+argument to simplify the visualisation.
 }
 \examples{
 corrCircle(data = mtcars,

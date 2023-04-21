@@ -1,20 +1,22 @@
 #' corrChord
 #'
-#' Creates an chord plot displaying correlations.
+#' This function creates a chord plot of correlations between variables in a dataset.
 #'
-#'
-#' @param data A data frame.
-#' @param method Which correlation coefficient (or covariance) is to be computed.
-#' One of "pearson" (default), "kendall", or "spearman": can be abbreviated.
-#' @param threshold Filter correlations with an absolute value lower than selected value.
-#' @param circle If TRUE then plot is displayed as a circle.
+#' @param data A dataframe containing the data to be analyzed.
+#' @param method A character string specifying the correlation method. One of
+#'   "pearson", "kendall", or "spearman". Default is "pearson".
+#' @param threshold A numeric value indicating the minimum absolute
+#' correlation value to display in the plot.
+#' @param circle A logical value indicating whether to use a circular
+#' layout (TRUE) or linear layout (FALSE), default is FALSE.
 #'
 #' @return A chord plot displaying correlations.
 #'
-#' @details DEtS hEre!!!
+#' @details When using a large amount of data, this plot can quickly become over
+#' complicated. It is recommended to filter the correlations using the \code{threshold}
+#' argument to simplify the visualisation.
 #'
 #' @importFrom igraph graph_from_data_frame
-#' @importFrom reshape2 melt
 #' @importFrom stats cor
 #' @import ggplot2
 #' @import ggraph
@@ -53,7 +55,7 @@ corrChord <- function(data,
   cor_matrix[abs(cor_matrix) < threshold] <- 0
 
   # Convert the correlation matrix to a 'long' format
-  long_cor_matrix <- reshape2::melt(cor_matrix)
+  long_cor_matrix <- matrix2long(cor_matrix)
 
   # Remove zero correlations
   long_cor_matrix <- long_cor_matrix[long_cor_matrix$value != 0, ]
@@ -62,12 +64,12 @@ corrChord <- function(data,
   long_cor_matrix$col <- ifelse(long_cor_matrix$value <= 0, 'blue', 'red')
 
   # Find rows where names match entries in column1 or column2
-  nam <- levels(long_cor_matrix$Var1)
+  nam <- unique(c(long_cor_matrix$row_name, long_cor_matrix$col_name))
   df <- long_cor_matrix
 
   # Find matching names in column1 and column2
-  matched_names_column1 <- unique(df$Var1[df$Var1 %in% nam])
-  matched_names_column2 <- unique(df$Var2[df$Var2 %in% nam])
+  matched_names_column1 <- unique(df$row_name[df$row_name %in% nam])
+  matched_names_column2 <- unique(df$col_name[df$col_name %in% nam])
   nam_total <- unique(c(matched_names_column1, matched_names_column2))
 
 

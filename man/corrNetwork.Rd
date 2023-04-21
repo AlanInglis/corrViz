@@ -15,27 +15,27 @@ corrNetwork(
 )
 }
 \arguments{
-\item{data}{A data frame.}
+\item{data}{A data frame or matrix containing the input data for the correlation calculation.}
 
-\item{method}{Which correlation coefficient (or covariance) is to be computed.
-One of "pearson" (default), "kendall", or "spearman": can be abbreviated.}
+\item{method}{A character string specifying the correlation method. One of
+"pearson", "kendall", or "spearman". Default is "pearson".}
 
-\item{threshold}{Filter correlations with an absolute value lower than selected value.}
+\item{threshold}{A numeric value indicating the minimum absolute correlation
+value to display in the plot.}
 
-\item{layout}{Use an \code{igraph} layout to display network.}
+\item{layout}{Any \code{igraph} layout to display the network.}
 
 \item{width}{The width of the viewing window.}
 
 \item{height}{The height of the viewing window.}
 
-\item{physics}{If TRUE (the default) then physics is enabled on nodes. This may
-affect the selected layout.}
+\item{physics}{A logical value indicating whether to use physics-based layout. Default is TRUE.}
 }
 \value{
 A network plot displaying correlations.
 }
 \description{
-Creates an interactive network plot displaying correlations.
+Creates an interactive Correlation Network Visualization
 }
 \details{
 Each node in the network represents a variable where the width of
