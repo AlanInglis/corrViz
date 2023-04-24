@@ -108,29 +108,38 @@ corrPairs <- function(data,
       textt <- ""
     }
 
-    ggplot(data = data, mapping = mapping) +
-      geom_point(aes(x = x, y = y, text = textt),
-        color = data$colour
-      ) +
-      geom_smooth(aes(x = x, y = y),
-        formula = y ~ x,
-        method = "loess",
-        colour = line_colour,
-        se = F
+    suppressWarnings(
+      suppressMessages(
+        ggplot(data = data, mapping = mapping) +
+          geom_point(aes(x = x, y = y, text = textt),
+                     color = data$colour
+          ) +
+          geom_smooth(aes(x = x, y = y),
+                      formula = y ~ x,
+                      method = "loess",
+                      colour = line_colour,
+                      se = F
+          )
       )
+    )
   }
 
-
-  p <- GGally::ggpairs(data,
-    lower = list(continuous = wrap(dot_fun, col_by = col_by)),
-    diag = list(continuous = wrap("densityDiag", fill = "skyblue")),
-    upper = list(continuous = wrap(cor_fun))
+  suppressWarnings(
+    p <- GGally::ggpairs(data,
+                         lower = list(continuous = wrap(dot_fun, col_by = col_by)),
+                         diag = list(continuous = wrap("densityDiag", fill = "skyblue")),
+                         upper = list(continuous = wrap(cor_fun))
+    )
   )
 
 
-  if(interactive){
-    w <- ggplotly(p)
 
+
+  if(interactive){
+
+    suppressWarnings(
+      w <- ggplotly(p)
+    )
 
     # Remove some plotly hover text -------------------------------------------
 
@@ -190,9 +199,17 @@ corrPairs <- function(data,
     seq_off <- c(seq_off_line, seq_off_corr)
 
     # Turn trend line text off
-    style(w, hoverinfo = "none", traces = c(seq_off))
+    suppressWarnings(
+      style(w, hoverinfo = "none", traces = c(seq_off))
+    )
+
   }else{
-    return(p)
+    p <- p + theme_bw()
+    suppressWarnings(
+      print(p)
+    )
+
+
   }
 
 }
