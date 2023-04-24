@@ -229,9 +229,64 @@ corrBubble(data = mtcars,
 <caption><span id="fig9:fig9">Figure 9: </span>Bubble plot displaying correlation values from the upper portion of the correlation matrix.</caption>
 </center>
 
+# Scatterplot matrix pairs plot
+
+Our next plot is a scatterplot matrix (or pairs plot) displaying correlation values in the upper triangle of the plot, with the stars representing the correlation significance. The diagonal contains density plots of the data. The lower triangle displays a scatterplot of the data values with a smooth-line (which is coloured according the the correlation value for the variable pair). The additional arguments are:
+ 
+* `interactive`: A logical value indicating whether the output plot should be interactive (TRUE) or static (FALSE). Default is TRUE.
+* `col_by`: An optional character string specifying the name of the column in the data frame to be used for coloring points. Default is NULL.
+
+Figure 10 shows an interactive scatterplot for the first 5 variables found in the `mtcars` dataset. In this case, the scatterplot points are coloured by the variable `cyl`. 
+
+```{r, sp, fig.align='center', out.width='100%', out.height='100%', warning=FALSE}
+corrPairs(data = mtcars[,1:4],
+         method = "pearson",
+         interactive = TRUE,
+         col_by = "cyl")
+
+```
+<center>
+<caption><span id="fig10:fig10">Figure 10: </span>Correlation pairs plot for the first five variables from the `mtcars` dataset.</caption>
+</center>
+
+
+# Sankey plot
+
+An alternative method for viewing correlation is by using a Sankey plot. Sankey plots are primarily used to represent the flow of information between nodes in a network. These diagrams consist of interconnected pathways, with their width proportionally representing the quantity being transferred (in this case, the absolute value of the correlation). Figure 12 provides an example. In this case the correlations are filtered to show correlations with an absolute value above 0.6.
+The additional arguments are:
+
+* `threshold`: Filter correlations with an absolute value lower than selected value.
+* `colour`: A logical value indicating whether to color the links based on positive or
+negative correlation. Default is FALSE (links are grey).
+
+```{r, sankey, fig.align='center', out.width='100%', out.height='100%'}
+corrSankey(data = mtcars, 
+           method = 'pearson', 
+           threshold = 0.6,
+           colour = FALSE)
+
+```
+<center>
+<caption><span id="fig11:fig11">Figure 11: </span>Sankey plot displaying correlation values with a magnitude above 0.6.</caption>
+</center>
+
+
+Setting `colour = TRUE` colours the links based on their correlation. In figure 12, the `threshold` argument is set to equal 0.8.
+
+```{r, sankey1, fig.align='center', out.width='100%', out.height='100%'}
+corrSankey(data = mtcars, 
+           method = 'pearson', 
+           threshold = 0.8,
+           colour = TRUE)
+
+```
+<center>
+<caption><span id="fig12:fig12">Figure 12: </span>Coloured Sankey plot displaying correlation values with a magnitude above 0.8.</caption>
+</center>
+
 # Chord plot
 
-Figure 10 shows a chord plot displaying correlations. This type of plot can quickly become overloaded with information, so it is recommended to only use this plot when thresholding correlation values. In Figure 10, `threshold = 0.8`, which filters any correlations from the visualization an absolute value lower than selected value. The width of the chords corresponds to the magnitude of the correlation with their colours indicating positive (red) or negative correlations (blue).
+Figure 13 shows a chord plot displaying correlations. This type of plot can quickly become overloaded with information, so it is recommended to only use this plot when thresholding correlation values. In Figure 13, `threshold = 0.8`, which filters any correlations from the visualization an absolute value lower than selected value. The width of the chords corresponds to the magnitude of the correlation with their colours indicating positive (red) or negative correlations (blue).
 The additional arguments are:
 
 * `threshold`: Filter correlations with an absolute value lower than selected value.
@@ -244,10 +299,10 @@ corrChord(data = mtcars,
           threshold = 0.8)
 ```
 <center>
-<caption><span id="fig10:fig10">Figure 10: </span>Chord plot displaying correlation values with a magnitude above 0.8.</caption>
+<caption><span id="fig13:fig13">Figure 13: </span>Chord plot displaying correlation values with a magnitude above 0.8.</caption>
 </center>
 
-Figure 11, displays the same information as Figure 10, but uses a circular layout, via the `circle` argument.
+Figure 14, displays the same information as Figure 13, but uses a circular layout, via the `circle` argument.
 
 ```{r, chord2, fig.align='center', out.width='60%', out.height='60%'}
 corrChord(data = mtcars,
@@ -256,12 +311,12 @@ corrChord(data = mtcars,
           threshold = 0.8)
 ```
 <center>
-<caption><span id="fig11:fig11">Figure 11: </span>Circular chord plot displaying correlation values with a magnitude above 0.8.</caption>
+<caption><span id="fig14:fig14">Figure 14: </span>Circular chord plot displaying correlation values with a magnitude above 0.8.</caption>
 </center>
 
 # Circular correlation plot
 
-Figure 12 shows a circular correlation plot. This is similar to Figure 11 but places the variable names on the outside of a neater circle. as with Figures 10 and 11, the width of the chords in Figure 12 corresponds to the magnitude of the correlation with their colours indicating positive (red) or negative correlations (blue). The additional arguments are:
+Figure 15 shows a circular correlation plot. This is similar to Figure 14 but places the variable names on the outside of a neater circle. As with Figures 13 and 14, the width of the chords in Figure 15 corresponds to the magnitude of the correlation with their colours indicating positive (red) or negative correlations (blue). The additional arguments are:
  * `ticks`: If TRUE, then axis ticks are displayed on the circle. 
  * `threshold`: Filter correlations with an absolute value lower than selected value.
 
@@ -272,10 +327,10 @@ corrCircle(data = mtcars,
            ticks = TRUE)
 ```
 <center>
-<caption><span id="fig12:fig12">Figure 12: </span>Circular correlation plot displaying correlation values.</caption>
+<caption><span id="fig15:fig15">Figure 15: </span>Circular correlation plot displaying correlation values.</caption>
 </center>
 
-In Figure 13, we filter the visualization to display correlations with an absolute value greater than 0.8. In this case the axis ticks are removed.
+In Figure 16, we filter the visualization to display correlations with an absolute value greater than 0.8. In this case the axis ticks are removed.
 
 ```{r, circle2, fig.align='center', out.width='60%', out.height='60%'}
 corrCircle(data = mtcars, 
@@ -284,28 +339,9 @@ corrCircle(data = mtcars,
            threshold = 0.8)
 ```
 <center>
-<caption><span id="fig13:fig13">Figure 13: </span>Circular correlation plot displaying correlation values with a magnitude above 0.8.</caption>
+<caption><span id="fig16:fig16">Figure 16: </span>Circular correlation plot displaying correlation values with a magnitude above 0.8.</caption>
 </center>
 
-# Scatterplot matrix pairs plot
-
-Our final plot is a scatterplot matrix (or pairs plot) displaying correlation values in the upper triangle of the plot, with the stars representing the correlation significance. The diagonal contains density plots of the data. The lower triangle displays a scatterplot of the data values with a smooth-line (which is coloured according the the correlation value for the variable pair). The additional arguments are:
- 
-* `interactive`: A logical value indicating whether the output plot should be interactive (TRUE) or static (FALSE). Default is TRUE.
-* `col_by`: An optional character string specifying the name of the column in the data frame to be used for coloring points. Default is NULL.
-
-Figure 14 shows an interactive scatterplot for the first 5 variables found in the `mtcars` dataset. In this case, the scatterplot points are coloured by the variable `cyl`. 
-
-```{r, sp, fig.align='center', out.width='100%', out.height='100%', warning=FALSE}
-corrPairs(data = mtcars[,1:4],
-         method = "pearson",
-         interactive = TRUE,
-         col_by = "cyl")
-
-```
-<center>
-<caption><span id="fig14:fig14">Figure 14: </span>Correlation pairs plot for the first five variables from the `mtcars` dataset.</caption>
-</center>
 
 
 # Coverting a correlation matrix to data frame
