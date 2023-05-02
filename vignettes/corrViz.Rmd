@@ -274,12 +274,13 @@ corrSankey(data = mtcars,
 
 # Static Plots
 
-In addition to interactive plots, `corrViz` also provides numerous static plots. In Figures 12 to 15 we show a selection of options to display correlations on a grid. The plot types can be any of _square_, _circle_, _text_, or _pie_, which can be set via the `type` argument. The additional arguments are: 
+In addition to interactive plots, `corrViz` also provides numerous static plots. In Figures 12 to 15 we show a selection of options to display correlations on a grid. The plot types can be any of _square_, _circle_, _text_, or _pie_, which can be set via the `type` argument. If the `type` argument is set to either `square` or `circle`, then the shapes are sized, with the size representing the absolute value of the correlation. 
+The additional arguments are: 
 
 * `showDiag`: A logical value, if TRUE (default), the diagonal of the correlation matrix is shown.
 *  `pal`: A color palette function, used for the correlation coefficient colors.
 
-In Figure 12, we set `type = 'square'`.
+In Figure 12, we set `type = 'square'`
 
 ```{r, square, fig.align='center',out.width='100%', out.height='100%'}
 corrGrid(data = mtcars[1:7],
@@ -301,18 +302,8 @@ corrGrid(data = mtcars[1:7],
 <caption><span id="fig13:fig13">Figure 13: </span>Static circle correlation plot.</caption>
 </center>
 
-In Figure 14, we set `type = 'pie'`. This plot shows pie charts where the filled in percetnage represents the correlation value.
 
-```{r, pie, fig.align='center', out.width='100%', out.height='100%'}
-corrGrid(data = mtcars[1:7],
-         type = 'pie')
-
-```
-<center>
-<caption><span id="fig14:fig14">Figure 14: </span>Static pie-chart correlation plot.</caption>
-</center>
-
-In Figure 15, we set `type = 'text'`. The text 
+In Figure 14, we set `type = 'text'`. The text 
 
 ```{r, text, fig.align='center', out.width='100%', out.height='100%'}
 corrGrid(data = mtcars[1:7],
@@ -320,7 +311,19 @@ corrGrid(data = mtcars[1:7],
 
 ```
 <center>
-<caption><span id="fig15:fig15">Figure 15: </span>Static text correlation plot.</caption>
+<caption><span id="fig14:fig14">Figure 14: </span>Static text correlation plot.</caption>
+</center>
+
+# Correlation Pie Plot
+In Figure 15, we set `type = 'pie'`. This plot shows pie charts where the filled in percentage represents the correlation value.
+
+```{r, pie, fig.align='center', out.width='100%', out.height='100%'}
+corrGrid(data = mtcars[1:7],
+         type = 'pie')
+
+```
+<center>
+<caption><span id="fig15:fig15">Figure 15: </span>Static pie-chart correlation plot.</caption>
 </center>
 
 
