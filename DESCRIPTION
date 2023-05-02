@@ -18,7 +18,8 @@ Imports:
     igraph,
     ggraph,
     circlize,
-    GGally
+    GGally,
+    purrr
 LazyData: true
 RoxygenNote: 7.2.1
 Suggests: 
