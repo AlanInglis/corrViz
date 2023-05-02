@@ -264,7 +264,8 @@ corrp.pie <- function(data,
   dft <- NULL
   for(i in 1:nrow(data)){
     dft[[i]] <- data.frame(group = c(data[i,1], data[i, 2]),
-                           value = c(data[i,5], data[i, 6]))
+                           value = c(data[i,3]),
+                           absVal = c(data[i,5], 1 - data[i,5]))
 
     dft[[i]]$group <- sort(dft[[i]]$group)
   }
@@ -274,11 +275,11 @@ corrp.pie <- function(data,
   plotFun <- function(data){
 
     for(i in 1:length(dft)){
-      plotList[[i]] <- ggplot(data[[i]], aes(x="", y=value, fill=value)) +
+      plotList[[i]] <- ggplot(data[[i]], aes(x="", y=absVal, fill=value)) +
         geom_bar(stat="identity", width=1, color = 'black') +
         scale_fill_gradientn(
           colors = pal,
-          limits = c(0, 1),
+          limits = c(-1, 1),
           guide = guide_colorbar(
             order = 1,
             frame.colour = "black",
@@ -293,12 +294,18 @@ corrp.pie <- function(data,
 
   all_plots <- plotFun(dft)
 
-  # change certain paramters
+  # -------------------------------------------------------------------------
+
   build <- NULL
   final <- NULL
   for(i in 1:length(all_plots)){
     build[[i]] <- ggplot_build(all_plots[[i]])$data
     build[[i]][[1]]$y[2] <- 1- build[[i]][[1]]$y[1]
+
+    if(dft[[i]]$value[1] < 0){
+      build[[i]][[1]]$fill[1] <- build[[i]][[1]]$fill[2]
+
+    }
     build[[i]][[1]]$fill[2] <- '#ffffff'
 
     final[[i]] <- ggplot(build[[i]][[1]], aes(x="", y=y, fill= dft[[i]]$group)) +
@@ -312,12 +319,14 @@ corrp.pie <- function(data,
   # change this to make it work for some unknown reason
   i = 2
 
+
   # plot pies on a grid
   pie_grid <- expand.grid(
     as.numeric(factor(unique(data$row_name))),
     as.numeric(factor(unique(data$col_name)))
   )
   pie_grid$plot <- final
+
 
   pp<-  ggrid +
     purrr::pmap(pie_grid, function(Var1, Var2, plot) {
