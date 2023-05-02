@@ -317,7 +317,7 @@ corrGrid(data = mtcars[1:7],
 # Correlation Pie Plot
 In Figure 15, we set `type = 'pie'`. This plot shows pie charts where the filled in percentage represents the correlation value.
 
-```{r, pie, fig.align='center', out.width='100%', out.height='100%'}
+```{r, pie, fig.align='center', out.width='100%', out.height='100%', warning=FALSE}
 corrGrid(data = mtcars[1:7],
          type = 'pie')
 
