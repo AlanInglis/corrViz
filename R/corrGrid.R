@@ -40,10 +40,10 @@ corrGrid <- function(data,
   correlations <- cor(data, method = method)
 
 
-  if (type == "pie" && ((display == "upper" || display == "lower") || showDiag == FALSE)){
-    stop('Error: pie plot can only be used when display = \"all\"
-         and showDiag = \"TRUE\".')
-  }
+  # if (type == "pie" && ((display == "upper" || display == "lower") || showDiag == FALSE)){
+  #   stop('Error: pie plot can only be used when display = \"all\"
+  #        and showDiag = \"TRUE\".')
+  # }
 
   if(showDiag == FALSE){
     diag(correlations) <- NA
@@ -55,15 +55,17 @@ corrGrid <- function(data,
   # choose upper or lower
   display <- match.arg(display)
 
-  switch(display,
-         "lower" = {
-           correlations[lower.tri(correlations, diag = remove_diag)] <- NA
-         },
-         "upper" = {correlations[upper.tri(correlations, diag = remove_diag)] <- NA
-         },
-         "all" = {
-           correlations <- correlations
-         })
+    switch(display,
+           "lower" = {
+             correlations[lower.tri(correlations, diag = remove_diag)] <- NA
+           },
+           "upper" = {correlations[upper.tri(correlations, diag = remove_diag)] <- NA
+           },
+           "all" = {
+             correlations <- correlations
+           })
+
+
 
 
   # turn into df
