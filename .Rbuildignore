@@ -6,19 +6,4 @@
 ^README\.Rmd$
 
 
-^\.Rproj\.user$
-^\.httr-oauth$
-^codecov\.yml$
-^README\.Rmd$
-^badge$
-^cran-comments\.md$
-^CRAN-RELEASE$
-^_pkgdown\.yml$
 
-^pkgdown$
-^paperCodeData$
-^CRAN-SUBMISSION$
-^RJvivid$
-^rjwrap$
-^vividVigplots$
-^\.github$
