@@ -141,23 +141,10 @@ corrNetwork(data = mtcars,
 # Solar plot
 
 
-In a solar system correlation plot, the _dependent_ (sun) variable of interest is positioned at the center, represented as the sun. The _explanatory_ (planet) variables are depicted as planets orbiting around the sun, with their distance from the sun corresponding to the absolute value of their correlation with the dependent variable. Therefore, the greater the distance of a planet from the sun, the weaker the correlation between the explanatory variable and the dependent variable. Figure 5 shows a static solar system correlation plot with `mpg` selected as the dependent variable via the `sun` argument. Planet variables are coloured either red (positive correlation) or blue (negative correlation).
-
-In Figure 5, the variable `mpg` is selected as the sun and is placed in the centre. 
-
-```{r, solar, fig.align='center', out.width='65%', out.height='65%'}
-corrSolar(data = mtcars,
-          method = 'pearson',
-          sun = 'mpg')
-
-```
-<center>
-<caption><span id="fig5:fig5">Figure 5: </span>Solar system correlation plot with the variable `mpg` as the sun.</caption>
-</center>
-
+In a solar system correlation plot, the _dependent_ (sun) variable of interest is positioned at the center, represented as the sun. The _explanatory_ (planet) variables are depicted as planets orbiting around the sun, with their distance from the sun corresponding to the absolute value of their correlation with the dependent variable. Therefore, the greater the distance of a planet from the sun, the weaker the correlation between the explanatory variable and the dependent variable. 
 # Solar plot animation
 
-In addition to the static solar system correlation plot, we provide an animated version which displays the planet variables orbiting the sun. The additional arguments are:
+In Figure 5 we show an animated version which displays the planet variables orbiting the sun. The additional arguments are:
 
 * `export`: If TRUE, then the animation is exported to the user's machine as a gif. If FALSE (default), then the animation is played in the viewer window.
 * `num_frames`: The number of frames to render.
@@ -176,7 +163,7 @@ animSolar(data = mtcars,
           fps = 60)
 ```
 <center>
-<caption><span id="fig6:fig6">Figure 6: </span>Animated solar system correlation plot with the variable `mpg` as the sun.</caption>
+<caption><span id="fig5:fig5">Figure 5: </span>Animated solar system correlation plot with the variable `mpg` as the sun.</caption>
 </center>
 
 The `num_frames` argument is used to select the number of frames. Setting this to a low value will produce the plot quicker, however having a low number of frames will result in the "planets" jumping as the frames transition. Additionally, a low values of `num_frames` will affect the orbit of the animation when setting `export = FALSE`. This differs from the `fps` argument which sets the number of frames to play per second for use when exporting a gif. When `export = FALSE` (as is the case in figure 6), a 'play' button is provided to start the animation. Hovering over a planet will display the correlation value.
@@ -195,7 +182,7 @@ corrBarplot(data = mtcars,
            pal = colorRampPalette(c("cornflowerblue", 'white', 'tomato'))(100))
 ```
 <center>
-<caption><span id="fig7:fig7">Figure 7: </span>Bar plot displaying correlation values.</caption>
+<caption><span id="fig6:fig6">Figure 6: </span>Bar plot displaying correlation values.</caption>
 </center>
 
 Hovering the mouse over a bar will display the name of the variable pair and their associated correlation.
@@ -215,7 +202,7 @@ corrBubble(data = mtcars,
            pal = colorRampPalette(c("cornflowerblue", "white", "tomato"))(100))
 ```
 <center>
-<caption><span id="fig8:fig8">Figure 8: </span>Bubble plot displaying correlation values.</caption>
+<caption><span id="fig7:fig7">Figure 7: </span>Bubble plot displaying correlation values.</caption>
 </center>
 
 As with the heatmap, we can also display a portion of the plot using the `display` argument, as shown in Figure 9.
@@ -226,7 +213,7 @@ corrBubble(data = mtcars,
            display = 'upper')
 ```
 <center>
-<caption><span id="fig9:fig9">Figure 9: </span>Bubble plot displaying correlation values from the upper portion of the correlation matrix.</caption>
+<caption><span id="fig8:fig8">Figure 8: </span>Bubble plot displaying correlation values from the upper portion of the correlation matrix.</caption>
 </center>
 
 # Scatterplot matrix pairs plot
@@ -246,7 +233,7 @@ corrPairs(data = mtcars[,1:4],
 
 ```
 <center>
-<caption><span id="fig10:fig10">Figure 10: </span>Correlation pairs plot for the first five variables from the `mtcars` dataset.</caption>
+<caption><span id="fig9:fig9">Figure 9: </span>Correlation pairs plot for the first five variables from the `mtcars` dataset.</caption>
 </center>
 
 
@@ -267,7 +254,7 @@ corrSankey(data = mtcars,
 
 ```
 <center>
-<caption><span id="fig11:fig11">Figure 11: </span>Sankey plot displaying correlation values with a magnitude above 0.6.</caption>
+<caption><span id="fig10:fig10">Figure 10: </span>Sankey plot displaying correlation values with a magnitude above 0.6.</caption>
 </center>
 
 
@@ -281,12 +268,81 @@ corrSankey(data = mtcars,
 
 ```
 <center>
-<caption><span id="fig12:fig12">Figure 12: </span>Coloured Sankey plot displaying correlation values with a magnitude above 0.8.</caption>
+<caption><span id="fig11:fig11">Figure 11: </span>Coloured Sankey plot displaying correlation values with a magnitude above 0.8.</caption>
 </center>
+
+
+# Static Plots
+
+In addition to interactive plots, `corrViz` also provides numerous static plots. In Figures 12 to 15 we show a selection of options to display correlations on a grid. The plot types can be any of _square_, _circle_, _text_, or _pie_, which can be set via the `type` argument. The additional arguments are: 
+
+* `showDiag`: A logical value, if TRUE (default), the diagonal of the correlation matrix is shown.
+*  `pal`: A color palette function, used for the correlation coefficient colors.
+
+In Figure 12, we set `type = 'square'`.
+
+```{r, square, fig.align='center',out.width='100%', out.height='100%'}
+corrGrid(data = mtcars[1:7],
+         type = 'square')
+
+```
+<center>
+<caption><span id="fig12:fig12">Figure 12: </span>Static heatmap correlation plot.</caption>
+</center>
+
+In Figure 13, we set `type = 'circle'`.
+
+```{r, circlegrid, fig.align='center',out.width='100%', out.height='100%'}
+corrGrid(data = mtcars[1:7],
+         type = 'circle')
+
+```
+<center>
+<caption><span id="fig13:fig13">Figure 13: </span>Static circle correlation plot.</caption>
+</center>
+
+In Figure 14, we set `type = 'pie'`. This plot shows pie charts where the filled in percetnage represents the correlation value.
+
+```{r, pie, fig.align='center', out.width='100%', out.height='100%'}
+corrGrid(data = mtcars[1:7],
+         type = 'pie')
+
+```
+<center>
+<caption><span id="fig14:fig14">Figure 14: </span>Static pie-chart correlation plot.</caption>
+</center>
+
+In Figure 15, we set `type = 'text'`. The text 
+
+```{r, text, fig.align='center', out.width='100%', out.height='100%'}
+corrGrid(data = mtcars[1:7],
+         type = 'text')
+
+```
+<center>
+<caption><span id="fig15:fig15">Figure 15: </span>Static text correlation plot.</caption>
+</center>
+
+
+
+# Static Solar Plot
+Figure 16 shows a static version of the solar system correlation plot with `mpg` selected as the dependent variable via the `sun` argument. Planet variables are coloured either red (positive correlation) or blue (negative correlation).
+
+```{r, solar, fig.align='center', out.width='65%', out.height='65%'}
+corrSolar(data = mtcars,
+          method = 'pearson',
+          sun = 'mpg')
+
+```
+<center>
+<caption><span id="fig16:fig16">Figure 16: </span>Solar system correlation plot with the variable `mpg` as the sun.</caption>
+</center>
+
+
 
 # Chord plot
 
-Figure 13 shows a chord plot displaying correlations. This type of plot can quickly become overloaded with information, so it is recommended to only use this plot when thresholding correlation values. In Figure 13, `threshold = 0.8`, which filters any correlations from the visualization an absolute value lower than selected value. The width of the chords corresponds to the magnitude of the correlation with their colours indicating positive (red) or negative correlations (blue).
+Figure 17 shows a chord plot displaying correlations. This type of plot can quickly become overloaded with information, so it is recommended to only use this plot when thresholding correlation values. In Figure 13, `threshold = 0.8`, which filters any correlations from the visualization an absolute value lower than selected value. The width of the chords corresponds to the magnitude of the correlation with their colours indicating positive (red) or negative correlations (blue).
 The additional arguments are:
 
 * `threshold`: Filter correlations with an absolute value lower than selected value.
@@ -299,10 +355,10 @@ corrChord(data = mtcars,
           threshold = 0.8)
 ```
 <center>
-<caption><span id="fig13:fig13">Figure 13: </span>Chord plot displaying correlation values with a magnitude above 0.8.</caption>
+<caption><span id="fig17:fig17">Figure 17: </span>Chord plot displaying correlation values with a magnitude above 0.8.</caption>
 </center>
 
-Figure 14, displays the same information as Figure 13, but uses a circular layout, via the `circle` argument.
+Figure 18, displays the same information as Figure 17, but uses a circular layout, via the `circle` argument.
 
 ```{r, chord2, fig.align='center', out.width='60%', out.height='60%'}
 corrChord(data = mtcars,
@@ -311,12 +367,12 @@ corrChord(data = mtcars,
           threshold = 0.8)
 ```
 <center>
-<caption><span id="fig14:fig14">Figure 14: </span>Circular chord plot displaying correlation values with a magnitude above 0.8.</caption>
+<caption><span id="fig18:fig18">Figure 18: </span>Circular chord plot displaying correlation values with a magnitude above 0.8.</caption>
 </center>
 
 # Circular correlation plot
 
-Figure 15 shows a circular correlation plot. This is similar to Figure 14 but places the variable names on the outside of a neater circle. As with Figures 13 and 14, the width of the chords in Figure 15 corresponds to the magnitude of the correlation with their colours indicating positive (red) or negative correlations (blue). The additional arguments are:
+Figure 19 shows a circular correlation plot. This is similar to Figure 18 but places the variable names on the outside of a neater circle. As with Figures 17 and 18, the width of the chords in Figure 15 corresponds to the magnitude of the correlation with their colours indicating positive (red) or negative correlations (blue). The additional arguments are:
  * `ticks`: If TRUE, then axis ticks are displayed on the circle. 
  * `threshold`: Filter correlations with an absolute value lower than selected value.
 
@@ -327,10 +383,10 @@ corrCircle(data = mtcars,
            ticks = TRUE)
 ```
 <center>
-<caption><span id="fig15:fig15">Figure 15: </span>Circular correlation plot displaying correlation values.</caption>
+<caption><span id="fig19:fig19">Figure 19: </span>Circular correlation plot displaying correlation values.</caption>
 </center>
 
-In Figure 16, we filter the visualization to display correlations with an absolute value greater than 0.8. In this case the axis ticks are removed.
+In Figure 20, we filter the visualization to display correlations with an absolute value greater than 0.8. In this case the axis ticks are removed.
 
 ```{r, circle2, fig.align='center', out.width='60%', out.height='60%'}
 corrCircle(data = mtcars, 
@@ -339,7 +395,7 @@ corrCircle(data = mtcars,
            threshold = 0.8)
 ```
 <center>
-<caption><span id="fig16:fig16">Figure 16: </span>Circular correlation plot displaying correlation values with a magnitude above 0.8.</caption>
+<caption><span id="fig20:fig20">Figure 20: </span>Circular correlation plot displaying correlation values with a magnitude above 0.8.</caption>
 </center>
 
 
