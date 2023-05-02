@@ -41,5 +41,4 @@ Create a correlation grid plot to visualize correlations among the columns of a 
 data(mtcars)
 corr_grid_plot <- corrGrid(data = mtcars,
                            type = 'square')
-corr_grid_plot
 }
