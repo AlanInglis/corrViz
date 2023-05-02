@@ -38,10 +38,8 @@ A correlation grid plot
 Create a correlation grid plot to visualize correlations among the columns of a dataset
 }
 \examples{
-\dontrun{
 data(mtcars)
 corr_grid_plot <- corrGrid(data = mtcars,
                            type = 'square')
 corr_grid_plot
-}
 }

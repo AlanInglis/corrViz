@@ -22,12 +22,10 @@
 #' @export
 #'
 #' @examples
-#' \dontrun{
 #' data(mtcars)
 #' corr_grid_plot <- corrGrid(data = mtcars,
 #'                            type = 'square')
 #' corr_grid_plot
-#' }
 
 corrGrid <- function(data,
                     method = c("pearson", "kendall", "spearman"),
