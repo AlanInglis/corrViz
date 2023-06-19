@@ -3,8 +3,9 @@ title: "corrViz"
 output: rmarkdown::html_vignette
 vignette: >
   %\VignetteIndexEntry{corrViz}
-  %\VignetteEngine{knitr::rmarkdown}
   %\VignetteEncoding{UTF-8}
+  %\VignetteEngine{knitr::rmarkdown}
+runtime: shiny
 ---
 
 ```{r, include = FALSE}
@@ -46,14 +47,19 @@ devtools::install_github("AlanInglis/corrViz")
 ```
 
 You can then load the package with:
-``` r
+```{r}
 library(corrViz)
 ```
   
-  
 # Methods
 
-The `corrViz` package offers several visualization methods to help you explore and communicate correlations effectively, with an emphasis on interactivity. At it's core, `corrViz` uses the in-built `R` function `cor()` to compute the correlations. As a result any of the correlation methods available in the `cor` function can be used in the `corrViz` visualisations via the `method` argument. The only required inputs for all `corrViz` functions are the a dataset and the correlation method. However, each visualization has multiple customization options, which are outlined in this document. The `plotly` package^[ C. Sievert. Interactive Web-Based Data Visualization with R, plotly, and shiny. Chapman and Hall/CRC Florida, 2020.] is used to create interactive graphics.
+The `corrViz` package offers several visualization methods to help you explore and communicate correlations effectively, with an emphasis on interactivity. The only required inputs for all `corrViz` functions are either a dataset or a square matrix of correlations to be visualized. Each visualization has multiple customization options, which are outlined in this document. The `plotly` package^[ C. Sievert. Interactive Web-Based Data Visualization with R, plotly, and shiny. Chapman and Hall/CRC Florida, 2020.] is used to create interactive graphics.
+
+To begin we will create a correlation matrix using the `mtcars` data set.
+
+```{r, corrMat}
+cm <- cor(mtcars)
+```
 
 
 # Heat map
@@ -67,8 +73,7 @@ The following code produces an interactive heatmap displaying variable correlati
 Hovering the mouse over a cell in the heatmap will display a box containing the variable pair names and their associated correlation value. Dragging the mouse will zoom in on the selected area and double-clicking the plot will reset the zoom.
 
 ```{r, heatmap, out.width='100%', out.height='100%'}
-corrHeatmap(data = mtcars,
-            method = 'pearson',
+corrHeatmap(mat = cm,
             display = 'all',
             reorder = TRUE,
             pal = colorRampPalette(c("darkblue", 'white', 'darkred'))(100))
@@ -82,15 +87,13 @@ corrHeatmap(data = mtcars,
 In Figure 1 we set `display = "all"` which shows the full heatmap. To display only the upper or lower portion of the heatmap we use the appropriate argument in `display`, as shown in Figure 2 (which shows the lower section).
 
 ```{r, heatmap2, out.width='100%', out.height='100%'}
-corrHeatmap(data = mtcars,
-            method = 'pearson',
+corrHeatmap(mat = cm,
             display = 'lower',
             reorder = FALSE)
 
 ```
 <center>
-<caption><span id="fig2:fig2">Figure 2: </span>Interactive heatmap displaying correlations from
-the lower section of the heatmap.</caption>
+<caption><span id="fig2:fig2">Figure 2: </span>Interactive heatmap displaying correlations from the lower section of the heatmap.</caption>
 </center>
 
 # Network
@@ -106,8 +109,7 @@ For build our network plots we use the `visNetwork` package^[Almende B.V. and Co
 * `physics`: If TRUE (the default) then physics is enabled on nodes. This will alter the layout to be roughly circular.
 
 ```{r, network, out.width='100%', out.height='100%'}
-corrNetwork(data = mtcars,
-            method = "pearson",
+corrNetwork(mat = cm,
             threshold = 0,
             layout = "layout_nicely",
             width = "100%",
@@ -128,8 +130,7 @@ In Figure 4, below, we set the `threshold` argument to equal 0.8. This will filt
 
 
 ```{r, network2, out.width='100%', out.height='100%'}
-corrNetwork(data = mtcars,
-            method = "pearson",
+corrNetwork(mat = cm,
             threshold = 0.8,
             physics = TRUE)
 ```
@@ -153,8 +154,7 @@ In Figure 5 we show an animated version which displays the planet variables orbi
 * `fps`: The frame rate of the exported animation in frames/sec. Default is 60 fps and is only used when exporting a gif via `export = TRUE`.
 
 ```{r, solar2, fig.align='center', out.width='75%', out.height='75%'}
-animSolar(data = mtcars,
-          method = 'pearson',
+animSolar(mat = cm,
           sun = 'mpg',
           export = FALSE,
           num_frames = 100,
@@ -170,16 +170,15 @@ The `num_frames` argument is used to select the number of frames. Setting this t
 
 # Bar plot
 
-Figure 7 shows an interactive barplot displaying correlation values. The red bars extending right represent the positive correlations whereas the blue bars extending left represent the negative correlations. 
+Figure 6 shows an interactive barplot displaying correlation values. The red bars extending right represent the positive correlations whereas the blue bars extending left represent the negative correlations. 
 The additional arguements here are:
 * `interactive`: If TRUE then an interactive version of the barplot is displayed.
 * `pal`: The colour palette to use for displaying values.
 
 ```{r, bar1, out.width='100%', out.height='100%'}
-corrBarplot(data = mtcars, 
-           method = "pearson",
-           interactive = TRUE,
-           pal = colorRampPalette(c("cornflowerblue", 'white', 'tomato'))(100))
+corrBarplot(mat = cm,
+            interactive = TRUE,
+            pal = colorRampPalette(c("cornflowerblue", 'white', 'tomato'))(100))
 ```
 <center>
 <caption><span id="fig6:fig6">Figure 6: </span>Bar plot displaying correlation values.</caption>
@@ -190,14 +189,13 @@ Hovering the mouse over a bar will display the name of the variable pair and the
 
 # Bubble
 
-Figure 8 is similar to the heatmap shown in Figures 1 and 2, except this time each variable pair is represented as a circle, with the size corresponding the the magnitude of the correlation. Hovering over a bubble will display the variable pair names and their associated correlation. The additional arguments for this function are:
+Figure 7 is similar to the heatmap shown in Figures 1 and 2, except this time each variable pair is represented as a circle, with the size corresponding the the magnitude of the correlation. Hovering over a bubble will display the variable pair names and their associated correlation. The additional arguments for this function are:
 
 * `display`: Choose to display the upper, lower, or full matrix of values using "upper", "lower", or "all", respectively.
 * `pal`: The colour palette to use for displaying values.
 
 ```{r, bubble, out.width='100%', out.height='100%'}
-corrBubble(data = mtcars, 
-           method = 'pearson', 
+corrBubble(mat = cm,
            display = 'all',
            pal = colorRampPalette(c("cornflowerblue", "white", "tomato"))(100))
 ```
@@ -205,11 +203,10 @@ corrBubble(data = mtcars,
 <caption><span id="fig7:fig7">Figure 7: </span>Bubble plot displaying correlation values.</caption>
 </center>
 
-As with the heatmap, we can also display a portion of the plot using the `display` argument, as shown in Figure 9.
+As with the heatmap, we can also display a portion of the plot using the `display` argument, as shown in Figure 8.
 
 ```{r, bubble1, out.width='100%', out.height='100%'}
-corrBubble(data = mtcars, 
-           method = 'pearson', 
+corrBubble(mat = cm,
            display = 'upper')
 ```
 <center>
@@ -223,11 +220,11 @@ Our next plot is a scatterplot matrix (or pairs plot) displaying correlation val
 * `interactive`: A logical value indicating whether the output plot should be interactive (TRUE) or static (FALSE). Default is TRUE.
 * `col_by`: An optional character string specifying the name of the column in the data frame to be used for coloring points. Default is NULL.
 
-Figure 10 shows an interactive scatterplot for the first 5 variables found in the `mtcars` dataset. In this case, the scatterplot points are coloured by the variable `cyl`. 
+Figure 9 shows an interactive scatterplot for the first 5 variables found in the `mtcars` dataset. In this case, the scatterplot points are coloured by the variable `cyl`. 
 
 ```{r, sp, fig.align='center', out.width='100%', out.height='100%', warning=FALSE}
-corrPairs(data = mtcars[,1:4],
-         method = "pearson",
+
+corrPairs(data = mtcars[1:5],
          interactive = TRUE,
          col_by = "cyl")
 
@@ -239,7 +236,7 @@ corrPairs(data = mtcars[,1:4],
 
 # Sankey plot
 
-An alternative method for viewing correlation is by using a Sankey plot. Sankey plots are primarily used to represent the flow of information between nodes in a network. These diagrams consist of interconnected pathways, with their width proportionally representing the quantity being transferred (in this case, the absolute value of the correlation). Figure 12 provides an example. In this case the correlations are filtered to show correlations with an absolute value above 0.6.
+An alternative method for viewing correlation is by using a Sankey plot. Sankey plots are primarily used to represent the flow of information between nodes in a network. These diagrams consist of interconnected pathways, with their width proportionally representing the quantity being transferred (in this case, the absolute value of the correlation). Figure 10 provides an example. In this case the correlations are filtered to show correlations with an absolute value above 0.6.
 The additional arguments are:
 
 * `threshold`: Filter correlations with an absolute value lower than selected value.
@@ -247,8 +244,7 @@ The additional arguments are:
 negative correlation. Default is FALSE (links are grey).
 
 ```{r, sankey, fig.align='center', out.width='100%', out.height='100%'}
-corrSankey(data = mtcars, 
-           method = 'pearson', 
+corrSankey(mat = cm,
            threshold = 0.6,
            colour = FALSE)
 
@@ -258,11 +254,10 @@ corrSankey(data = mtcars,
 </center>
 
 
-Setting `colour = TRUE` colours the links based on their correlation. In figure 12, the `threshold` argument is set to equal 0.8.
+Setting `colour = TRUE` colours the links based on their correlation. In figure 11, the `threshold` argument is set to equal 0.8.
 
 ```{r, sankey1, fig.align='center', out.width='100%', out.height='100%'}
-corrSankey(data = mtcars, 
-           method = 'pearson', 
+corrSankey(mat = cm,
            threshold = 0.8,
            colour = TRUE)
 
@@ -271,134 +266,157 @@ corrSankey(data = mtcars,
 <caption><span id="fig11:fig11">Figure 11: </span>Coloured Sankey plot displaying correlation values with a magnitude above 0.8.</caption>
 </center>
 
+# Shiny Plot
+
+We also provide an option to create an interactive Shiny plot. This plot is a useful tool for quickly checking the correlation between two variables. The additional arguments are:
+
+* `data`: A data frame with the variables to be analyzed.
+* `x_var`: The name of the variable to be plotted on the X-axis.
+* `y_var`: The name of the variable to be plotted on the Y-axis.
+* `color_var`: The name of the variable to be used for coloring the points on the scatter plot.
+* `size_var`: The name of the variable to be used for sizing the points on the scatter plot.
+* `correlation_method`: The method to be used for computing the correlation coefficient, must be one of "pearson", "spearman" or "kendall", the default is "pearson".
+
+
+```{r, shiny}
+corrShiny(data = mtcars,
+          x_var = "wt",
+          y_var = "mpg",
+          color_var = "cyl",
+          size_var = "hp")
+
+```
+<center>
+<caption><span id="fig12:fig12">Figure 12: </span>Shiny correlation explorer.</caption>
+</center>
+
+
+In the code above, although we chose with variables to display, colour and size by, all of these options options can be changrd within the Shiny app. As can be seen in Figure 12, we provide the options to choose both the X and Y variable to display in the plotting window. The correlation value is displayed in the Figure caption or can be displayed in the bottom right of the plot by checking the _show correlation coefficient on plot_ box. The correlation method can be changed by clicking on the appropriate drop-down menu and we provide three correlation method options. They are; _Pearson_, _Spearman_, or _Kendall_.
+
+A line of best fit (with or without confidence intervals) can be overlayed on top off the data and provide two options to fit the line, i.e., $lm$ of $loess$. To aid in interpretability, we also provide options to colour the points in the plot by a selected variable, to size the points by a selected variable, or to show  observation labels on the plot.
 
 # Static Plots
 
-In addition to interactive plots, `corrViz` also provides numerous static plots. In Figures 12 to 15 we show a selection of options to display correlations on a grid. The plot types can be any of _square_, _circle_, _text_, or _pie_, which can be set via the `type` argument. If the `type` argument is set to either `square` or `circle`, then the shapes are sized, with the size representing the absolute value of the correlation. 
+In addition to interactive plots, `corrViz` also provides numerous static plots. In Figures 13 to 16 we show a selection of options to display correlations on a grid. The plot types can be any of _square_, _circle_, _text_, or _pie_, which can be set via the `type` argument. If the `type` argument is set to either `square` or `circle`, then the shapes are sized, with the size representing the absolute value of the correlation. 
 The additional arguments are: 
 
 * `showDiag`: A logical value, if TRUE (default), the diagonal of the correlation matrix is shown.
 *  `pal`: A color palette function, used for the correlation coefficient colors.
 
-In Figure 12, we set `type = 'square'`
+In Figure 13, we set `type = 'square'`
 
 ```{r, square, fig.align='center',out.width='100%', out.height='100%'}
-corrGrid(data = mtcars[1:7],
+corrGrid(mat = cm[1:7,1:7],
          type = 'square')
 
 ```
 <center>
-<caption><span id="fig12:fig12">Figure 12: </span>Static heatmap correlation plot.</caption>
+<caption><span id="fig13:fig13">Figure 13: </span>Static heatmap correlation plot.</caption>
 </center>
 
-In Figure 13, we set `type = 'circle'`.
+In Figure 14, we set `type = 'circle'`.
 
 ```{r, circlegrid, fig.align='center',out.width='100%', out.height='100%'}
-corrGrid(data = mtcars[1:7],
+corrGrid(mat = cm[1:7,1:7],
          type = 'circle')
 
 ```
 <center>
-<caption><span id="fig13:fig13">Figure 13: </span>Static circle correlation plot.</caption>
+<caption><span id="fig14:fig14">Figure 14: </span>Static circle correlation plot.</caption>
 </center>
 
 
-In Figure 14, we set `type = 'text'`. The text 
+In Figure 15, we set `type = 'text'`. The text 
 
 ```{r, text, fig.align='center', out.width='100%', out.height='100%'}
-corrGrid(data = mtcars[1:7],
+corrGrid(mat = cm[1:7,1:7],
          type = 'text')
 
 ```
 <center>
-<caption><span id="fig14:fig14">Figure 14: </span>Static text correlation plot.</caption>
+<caption><span id="fig15:fig15">Figure 15: </span>Static text correlation plot.</caption>
 </center>
 
 # Correlation Pie Plot
-In Figure 15, we set `type = 'pie'`. This plot shows pie charts where the filled in percentage represents the correlation value.
+In Figure 16, we set `type = 'pie'`. This plot shows pie charts where the filled in percentage represents the correlation value.
 
 ```{r, pie, fig.align='center', out.width='100%', out.height='100%', warning=FALSE}
-corrGrid(data = mtcars[1:7],
+corrGrid(mat = cm[1:7,1:7],
          type = 'pie')
 
 ```
 <center>
-<caption><span id="fig15:fig15">Figure 15: </span>Static pie-chart correlation plot.</caption>
+<caption><span id="fig16:fig16">Figure 16: </span>Static pie-chart correlation plot.</caption>
 </center>
 
 
 
 # Static Solar Plot
-Figure 16 shows a static version of the solar system correlation plot with `mpg` selected as the dependent variable via the `sun` argument. Planet variables are coloured either red (positive correlation) or blue (negative correlation).
+Figure 17 shows a static version of the solar system correlation plot with `mpg` selected as the dependent variable via the `sun` argument. Planet variables are coloured either red (positive correlation) or blue (negative correlation).
 
 ```{r, solar, fig.align='center', out.width='65%', out.height='65%'}
-corrSolar(data = mtcars,
-          method = 'pearson',
+corrSolar(mat = cm,
           sun = 'mpg')
 
 ```
 <center>
-<caption><span id="fig16:fig16">Figure 16: </span>Solar system correlation plot with the variable `mpg` as the sun.</caption>
+<caption><span id="fig17:fig17">Figure 17: </span>Solar system correlation plot with the variable `mpg` as the sun.</caption>
 </center>
 
 
 
 # Chord plot
 
-Figure 17 shows a chord plot displaying correlations. This type of plot can quickly become overloaded with information, so it is recommended to only use this plot when thresholding correlation values. In Figure 13, `threshold = 0.8`, which filters any correlations from the visualization an absolute value lower than selected value. The width of the chords corresponds to the magnitude of the correlation with their colours indicating positive (red) or negative correlations (blue).
+Figure 18 shows a chord plot displaying correlations. This type of plot can quickly become overloaded with information, so it is recommended to only use this plot when thresholding correlation values. In Figure 18, `threshold = 0.8`, which filters any correlations from the visualization an absolute value lower than selected value. The width of the chords corresponds to the magnitude of the correlation with their colours indicating positive (red) or negative correlations (blue).
 The additional arguments are:
 
 * `threshold`: Filter correlations with an absolute value lower than selected value.
 * `circle`: If TRUE then plot is displayed as a circle.
 
 ```{r, chord, fig.align='center', out.width='60%', out.height='60%'}
-corrChord(data = mtcars, 
-          method = 'pearson',
+corrChord(mat = cm,
           circle = FALSE, 
           threshold = 0.8)
 ```
 <center>
-<caption><span id="fig17:fig17">Figure 17: </span>Chord plot displaying correlation values with a magnitude above 0.8.</caption>
+<caption><span id="fig18:fig18">Figure 18: </span>Chord plot displaying correlation values with a magnitude above 0.8.</caption>
 </center>
 
-Figure 18, displays the same information as Figure 17, but uses a circular layout, via the `circle` argument.
+Figure 19, displays the same information as Figure 18, but uses a circular layout, via the `circle` argument.
 
 ```{r, chord2, fig.align='center', out.width='60%', out.height='60%'}
-corrChord(data = mtcars,
-          method = 'pearson', 
+corrChord(mat = cm, 
           circle = TRUE, 
           threshold = 0.8)
 ```
 <center>
-<caption><span id="fig18:fig18">Figure 18: </span>Circular chord plot displaying correlation values with a magnitude above 0.8.</caption>
+<caption><span id="fig19:fig19">Figure 19: </span>Circular chord plot displaying correlation values with a magnitude above 0.8.</caption>
 </center>
 
 # Circular correlation plot
 
-Figure 19 shows a circular correlation plot. This is similar to Figure 18 but places the variable names on the outside of a neater circle. As with Figures 17 and 18, the width of the chords in Figure 15 corresponds to the magnitude of the correlation with their colours indicating positive (red) or negative correlations (blue). The additional arguments are:
+Figure 20 shows a circular correlation plot. This is similar to Figure 19 but places the variable names on the outside of a neater circle. As with Figures 18 and 19, the width of the chords in Figure 20 corresponds to the magnitude of the correlation with their colours indicating positive (red) or negative correlations (blue). The additional arguments are:
  * `ticks`: If TRUE, then axis ticks are displayed on the circle. 
  * `threshold`: Filter correlations with an absolute value lower than selected value.
 
 ```{r, circle, fig.align='center', out.width='60%', out.height='60%'}
-corrCircle(data = mtcars, 
-           method = 'pearson', 
+corrCircle(mat = cm, 
            threshold = 0,
            ticks = TRUE)
 ```
 <center>
-<caption><span id="fig19:fig19">Figure 19: </span>Circular correlation plot displaying correlation values.</caption>
+<caption><span id="fig20:fig20">Figure 20: </span>Circular correlation plot displaying correlation values.</caption>
 </center>
 
-In Figure 20, we filter the visualization to display correlations with an absolute value greater than 0.8. In this case the axis ticks are removed.
+In Figure 21, we filter the visualization to display correlations with an absolute value greater than 0.8. In this case the axis ticks are removed.
 
 ```{r, circle2, fig.align='center', out.width='60%', out.height='60%'}
-corrCircle(data = mtcars, 
-           method = 'pearson', 
+corrCircle(mat = cm, 
            ticks = FALSE, 
            threshold = 0.8)
 ```
 <center>
-<caption><span id="fig20:fig20">Figure 20: </span>Circular correlation plot displaying correlation values with a magnitude above 0.8.</caption>
+<caption><span id="fig21:fig21">Figure 21: </span>Circular correlation plot displaying correlation values with a magnitude above 0.8.</caption>
 </center>
 
 
@@ -417,3 +435,4 @@ long_data_frame
 # Conclusion
 The `corrViz` package provides a convenient and powerful way to visualize correlations between variables in your dataset. With its variety of visualization methods and customization options, you can gain valuable insights into the relationships within your data and communicate these findings effectively.
   
+
