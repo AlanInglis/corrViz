@@ -268,7 +268,7 @@ corrSankey(mat = cm,
 
 # Shiny Plot
 
-We also provide an option to create an interactive Shiny plot. This plot is a useful tool for quickly checking the correlation between two variables. The additional arguments are:
+We also provide an option to create an interactive Shiny plot. This plot is a useful tool for quickly checking the correlation between two variables. In Figure 12 below we show a screenshot of the Shiny app in use. The additional arguments are:
 
 * `data`: A data frame with the variables to be analyzed.
 * `x_var`: The name of the variable to be plotted on the X-axis.
@@ -278,13 +278,18 @@ We also provide an option to create an interactive Shiny plot. This plot is a us
 * `correlation_method`: The method to be used for computing the correlation coefficient, must be one of "pearson", "spearman" or "kendall", the default is "pearson".
 
 
-```{r, shiny}
+```{r, shiny, eval=FALSE}
 corrShiny(data = mtcars,
           x_var = "wt",
           y_var = "mpg",
           color_var = "cyl",
           size_var = "hp")
 
+```
+
+
+```{r, echo = F,  out.width = '100%'}
+knitr::include_graphics("https://raw.githubusercontent.com/AlanInglis/corrViz/main/badge/shiny.png")
 ```
 <center>
 <caption><span id="fig12:fig12">Figure 12: </span>Shiny correlation explorer.</caption>
