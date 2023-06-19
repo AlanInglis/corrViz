@@ -47,23 +47,13 @@
     </div>
 
     <div id="ref-usage">
-    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">corrChord</span><span class="op">(</span></span>
-<span>  <span class="va">data</span>,</span>
-<span>  method <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"pearson"</span>, <span class="st">"kendall"</span>, <span class="st">"spearman"</span><span class="op">)</span>,</span>
-<span>  threshold <span class="op">=</span> <span class="fl">0</span>,</span>
-<span>  circle <span class="op">=</span> <span class="cn">FALSE</span></span>
-<span><span class="op">)</span></span></code></pre></div>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">corrChord</span><span class="op">(</span><span class="va">mat</span>, threshold <span class="op">=</span> <span class="fl">0</span>, circle <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span></code></pre></div>
     </div>
 
     <div id="arguments">
     <h2>Arguments</h2>
-    <dl><dt>data</dt>
-<dd><p>A dataframe containing the data to be analyzed.</p></dd>
-
-
-<dt>method</dt>
-<dd><p>A character string specifying the correlation method. One of
-"pearson", "kendall", or "spearman". Default is "pearson".</p></dd>
+    <dl><dt>mat</dt>
+<dd><p>A square correlation matrix to visualise.</p></dd>
 
 
 <dt>threshold</dt>
@@ -91,13 +81,13 @@ argument to simplify the visualisation.</p>
 
     <div id="ref-examples">
     <h2>Examples</h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="fu">corrChord</span><span class="op">(</span>data <span class="op">=</span> <span class="va">mtcars</span>,</span></span>
-<span class="r-in"><span>          method <span class="op">=</span> <span class="st">'pearson'</span>,</span></span>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="va">cm</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/cor.html" class="external-link">cor</a></span><span class="op">(</span><span class="va">mtcars</span><span class="op">)</span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="fu">corrChord</span><span class="op">(</span>mat <span class="op">=</span> <span class="va">cm</span>,</span></span>
 <span class="r-in"><span>          threshold <span class="op">=</span> <span class="fl">0.8</span><span class="op">)</span></span></span>
 <span class="r-plt img"><img src="corrChord-1.png" alt="" width="700" height="433"></span>
 <span class="r-in"><span></span></span>
-<span class="r-in"><span><span class="fu">corrChord</span><span class="op">(</span>data <span class="op">=</span> <span class="va">mtcars</span>,</span></span>
-<span class="r-in"><span>          method <span class="op">=</span> <span class="st">'pearson'</span>,</span></span>
+<span class="r-in"><span><span class="fu">corrChord</span><span class="op">(</span>mat <span class="op">=</span> <span class="va">cm</span>,</span></span>
 <span class="r-in"><span>          threshold <span class="op">=</span> <span class="fl">0.8</span>,</span></span>
 <span class="r-in"><span>          circle <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></span>
 <span class="r-plt img"><img src="corrChord-2.png" alt="" width="700" height="433"></span>
@@ -116,7 +106,7 @@ argument to simplify the visualisation.</p>
 </div>
 
 <div class="pkgdown">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.6.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.7.</p>
 </div>
 
       </footer></div>
