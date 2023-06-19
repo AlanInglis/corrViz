@@ -34,7 +34,7 @@ corrGrid <- function(mat,
   # Declare global vars
   row_name <- col_name <- correlation <- NULL
   # get correlations
-  correlations <- mat #cor(data, method = method)
+  correlations <- mat
 
 
   # if (type == "pie" && ((display == "upper" || display == "lower") || showDiag == FALSE)){
@@ -87,7 +87,6 @@ corrGrid <- function(mat,
   }
 
   pp <- corrp(data = dfm,
-              method = method,
               display = display,
               type = type,
               showDiag = showDiag,
@@ -119,6 +118,8 @@ corrp.square <- function(data,
                          type = c('square', 'circle', 'text', 'pie'),
                          pal = colorRampPalette(c("darkblue", 'white', 'darkred'))(100),
                          ...){
+
+  row_name <- col_name <- correlation <- NULL
   # plot
   p <- ggplot(data, aes(x = row_name, y = col_name, fill = correlation)) +
     geom_tile(aes(width = 1, height = 1), fill = NA, color = "grey50") +
@@ -151,8 +152,9 @@ corrp.circle <- function(data,
                          type = c('square', 'circle', 'text', 'pie'),
                          pal = colorRampPalette(c("darkblue", 'white', 'darkred'))(100),
                          ...){
-  # plot
-  # plot
+
+  row_name <- col_name <- correlation <- NULL
+
   if(length(unique(data$row_name)) < 8){
     const <- 1/ncol(data) * 70
   }else if(length(unique(data$row_name)) >=8 && length(unique(data$row_name)) <= 10){
@@ -196,6 +198,8 @@ corrp.text <- function(data,
                        type = c('square', 'circle', 'text', 'pie'),
                        pal = colorRampPalette(c("darkblue", 'white', 'darkred'))(100),
                          ...){
+
+  row_name <- col_name <- correlation <- NULL
   # plot
   p <- ggplot(data, aes(x = row_name, y = col_name, color = correlation)) +
     geom_tile(aes(width = 1, height = 1), fill = NA, color = "grey50") +
@@ -228,6 +232,8 @@ corrp.pie <- function(data,
                      type = c('square', 'circle', 'text', 'pie'),
                      pal = colorRampPalette(c("darkblue", 'white', 'darkred'))(100),
                      ...){
+
+  row_name <- col_name <- correlation <- absVal <- value <- y <- NULL
   # plot
   ggrid <- ggplot(data, aes(x = row_name, y = col_name, fill = correlation)) +
     geom_tile(aes(width = 1, height = 1), fill = NA, color = "grey50") +

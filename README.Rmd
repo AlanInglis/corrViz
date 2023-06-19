@@ -43,6 +43,7 @@ The `corrViz` package offers several visualization methods to help you explore a
 
 * Heatmaps
 * Networks
+* Shiny applications
 * Scatterplot matrices
 * Bar plots
 * Chord diagrams

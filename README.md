@@ -39,6 +39,7 @@ interactivity. Some of the available methods include:
 
 - Heatmaps
 - Networks
+- Shiny applications
 - Scatterplot matrices
 - Bar plots
 - Chord diagrams
