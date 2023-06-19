@@ -37,7 +37,6 @@
 #'
 #' corrNetwork(mat = cm,
 #'            threshold = 0.8,
-#'            method = "pearson",
 #'            layout = 'layout_on_grid',
 #'            physics = FALSE)
 #' @export
