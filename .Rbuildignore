@@ -22,3 +22,5 @@
   ^rjwrap$
   ^vividVigplots$
   ^\.github$
+^CRAN-SUBMISSION$
+^cran-comments\.md$
