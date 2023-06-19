@@ -4,18 +4,10 @@
 \alias{corrCircle}
 \title{corrCircle}
 \usage{
-corrCircle(
-  data,
-  method = c("pearson", "kendall", "spearman"),
-  threshold = 0,
-  ticks = FALSE
-)
+corrCircle(mat, threshold = 0, ticks = FALSE)
 }
 \arguments{
-\item{data}{A dataframe containing the data to be analyzed.}
-
-\item{method}{A character string specifying the correlation method. One of
-"pearson", "kendall", or "spearman". Default is "pearson".}
+\item{mat}{A square correlation matrix to visualise.}
 
 \item{threshold}{A numeric value indicating the minimum absolute correlation
 value to display in the plot.}
@@ -35,8 +27,9 @@ complicated. It is recommended to filter the correlations using the \code{thresh
 argument to simplify the visualisation.
 }
 \examples{
-corrCircle(data = mtcars,
-          method = 'pearson',
+cm <- cor(mtcars)
+
+corrCircle(mat = cm,
           threshold = 0.8)
 
 

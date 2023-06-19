@@ -5,8 +5,7 @@
 \title{animSolar}
 \usage{
 animSolar(
-  data,
-  method = c("pearson", "kendall", "spearman"),
+  mat,
   sun = NULL,
   export = FALSE,
   num_frames = 100,
@@ -16,10 +15,7 @@ animSolar(
 )
 }
 \arguments{
-\item{data}{A dataframe containing the data to be analyzed.}
-
-\item{method}{A character string specifying the correlation method. One of
-"pearson", "kendall", or "spearman". Default is "pearson".}
+\item{mat}{A square correlation matrix to visualise.}
 
 \item{sun}{A character string specifying the column name in the dataset to be treated
 as the 'sun' in the solar system plot.}
@@ -61,8 +57,9 @@ orbit of the animation when setting \code{export = FALSE}. This differs from the
 when exporting a gif.
 }
 \examples{
-animSolar(data = mtcars,
-          method = 'pearson',
+cm <- cor(mtcars)
+
+animSolar(mat = cm,
           sun = 'mpg',
           export = FALSE,
           num_frames = 25)

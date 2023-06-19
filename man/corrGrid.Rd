@@ -5,8 +5,7 @@
 \title{Plot a correlation grid}
 \usage{
 corrGrid(
-  data,
-  method = c("pearson", "kendall", "spearman"),
+  mat,
   display = c("all", "upper", "lower"),
   type = c("square", "circle", "text", "pie"),
   showDiag = "TRUE",
@@ -14,10 +13,7 @@ corrGrid(
 )
 }
 \arguments{
-\item{data}{A data.frame, with numeric columns to compute correlations.}
-
-\item{method}{A character string, specifying the correlation method,
-one of "pearson", "kendall", or "spearman" (default: "pearson").}
+\item{mat}{A square correlation matrix to visualise.}
 
 \item{display}{A character string, specifying the display type,
 one of "all", "upper", or "lower" (default: "all").}
@@ -38,7 +34,7 @@ A correlation grid plot
 Create a correlation grid plot to visualize correlations among the columns of a dataset
 }
 \examples{
-data(mtcars)
-corr_grid_plot <- corrGrid(data = mtcars,
+cm <- cor(mtcars)
+corr_grid_plot <- corrGrid(mat = cm,
                            type = 'square')
 }

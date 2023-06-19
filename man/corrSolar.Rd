@@ -4,13 +4,10 @@
 \alias{corrSolar}
 \title{corrSolar}
 \usage{
-corrSolar(data, method = c("pearson", "kendall", "spearman"), sun = NULL)
+corrSolar(mat, sun = NULL)
 }
 \arguments{
-\item{data}{A dataframe containing the data to be analyzed.}
-
-\item{method}{A character string specifying the correlation method. One of
-"pearson", "kendall", or "spearman". Default is "pearson".}
+\item{mat}{A square correlation matrix to visualise.}
 
 \item{sun}{A character string specifying the column name in the dataset to
 be treated as the 'sun' in the solar system plot.}
@@ -33,8 +30,8 @@ the weaker the correlation between the explanatory variable
 and the dependent variable.
 }
 \examples{
-corrSolar(data = mtcars,
-          method = 'pearson',
+cm <- cor(mtcars)
+corrSolar(mat = cm,
           sun = 'mpg')
 
 

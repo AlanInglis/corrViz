@@ -4,18 +4,10 @@
 \alias{corrSankey}
 \title{corrSankey}
 \usage{
-corrSankey(
-  data,
-  method = c("pearson", "kendall", "spearman"),
-  threshold = 0,
-  colour = FALSE
-)
+corrSankey(mat, threshold = 0, colour = FALSE)
 }
 \arguments{
-\item{data}{A data frame containing the input data for calculating correlations.}
-
-\item{method}{A character string specifying the correlation method. One of
-"pearson", "kendall", or "spearman". Default is "pearson".}
+\item{mat}{A square correlation matrix to visualise.}
 
 \item{threshold}{A numeric value indicating the minimum absolute correlation value to
 include in the diagram.
@@ -35,7 +27,8 @@ This function generates a Sankey diagram for a given data frame, correlation met
 correlation threshold, with an optional colour parameter.
 }
 \examples{
-corrSankey(data = mtcars, method = 'pearson', threshold = 0.6)
-corrSankey(data = mtcars, method = 'pearson', threshold = 0.8, colour = TRUE)
+cm <- cor(mtcars)
+corrSankey(mat = cm, threshold = 0.6)
+corrSankey(mat = cm, threshold = 0.8, colour = TRUE)
 
 }

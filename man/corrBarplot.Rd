@@ -5,17 +5,13 @@
 \title{corrBarplot}
 \usage{
 corrBarplot(
-  data,
-  method = c("pearson", "kendall", "spearman"),
+  mat,
   interactive = TRUE,
   pal = colorRampPalette(c("cornflowerblue", "white", "tomato"))(100)
 )
 }
 \arguments{
-\item{data}{A dataframe containing the data to be analyzed.}
-
-\item{method}{A character string specifying the correlation method. One of
-"pearson", "kendall", or "spearman". Default is "pearson".}
+\item{mat}{A square correlation matrix to visualise.}
 
 \item{interactive}{A logical value specifying whether to create an interactive ggplotly plot,
 default is TRUE}
@@ -34,9 +30,10 @@ Creates a static or interactive bar plot displaying correlation values. By hover
 mouse over a bar, the variables and correlation value is shown.
 }
 \examples{
-corrBarplot(data = mtcars,
-            method = 'pearson',
-            interactive = TRUE)
+cm <- cor(mtcars)
+
+corrBarplot(mat = cm,
+           interactive = TRUE)
 
 
 }

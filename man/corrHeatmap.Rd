@@ -5,18 +5,14 @@
 \title{corrHeatmap}
 \usage{
 corrHeatmap(
-  data,
-  method = c("pearson", "kendall", "spearman"),
+  mat,
   display = c("all", "upper", "lower"),
   reorder = TRUE,
   pal = colorRampPalette(c("darkblue", "white", "darkred"))(100)
 )
 }
 \arguments{
-\item{data}{A dataframe containing the data to be analyzed.}
-
-\item{method}{A character string specifying the correlation method. One of
-"pearson", "kendall", or "spearman". Default is "pearson".}
+\item{mat}{A square correlation matrix to visualise.}
 
 \item{display}{A character vector specifying which part of the correlation matrix to
 display: 'all', 'upper', or 'lower', default is 'all'.}
@@ -37,9 +33,10 @@ Creates an interactive heatmap displaying correlation values. By hovering
 mouse over a cell, the variables and correlation value is shown.
 }
 \examples{
-corrHeatmap(data = mtcars,
-             method = 'pearson',
-             display = 'all')
+cm <- cor(mtcars)
+
+corrHeatmap(mat = cm,
+           display = 'all')
 
 
 }

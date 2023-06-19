@@ -5,8 +5,7 @@
 \title{corrNetwork}
 \usage{
 corrNetwork(
-  data,
-  method = c("pearson", "kendall", "spearman"),
+  mat,
   threshold = 0,
   layout = "layout_nicely",
   width = "100\%",
@@ -15,10 +14,7 @@ corrNetwork(
 )
 }
 \arguments{
-\item{data}{A data frame or matrix containing the input data for the correlation calculation.}
-
-\item{method}{A character string specifying the correlation method. One of
-"pearson", "kendall", or "spearman". Default is "pearson".}
+\item{mat}{A square correlation matrix to visualise.}
 
 \item{threshold}{A numeric value indicating the minimum absolute correlation
 value to display in the plot.}
@@ -44,9 +40,13 @@ correlations have red coloured edges whereas negative correlations have blue col
 edges.
 }
 \examples{
-corrNetwork(data = iris[,1:4], threshold = 0.5)
+ci <- cor(iris[1:4])
+corrNetwork(mat = ci, threshold = 0.5)
 
-corrNetwork(data = mtcars,
+# Another example
+cm <- cor(mtcars)
+
+corrNetwork(mat = cm,
            threshold = 0.8,
            method = "pearson",
            layout = 'layout_on_grid',

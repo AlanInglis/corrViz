@@ -4,18 +4,10 @@
 \alias{corrChord}
 \title{corrChord}
 \usage{
-corrChord(
-  data,
-  method = c("pearson", "kendall", "spearman"),
-  threshold = 0,
-  circle = FALSE
-)
+corrChord(mat, threshold = 0, circle = FALSE)
 }
 \arguments{
-\item{data}{A dataframe containing the data to be analyzed.}
-
-\item{method}{A character string specifying the correlation method. One of
-"pearson", "kendall", or "spearman". Default is "pearson".}
+\item{mat}{A square correlation matrix to visualise.}
 
 \item{threshold}{A numeric value indicating the minimum absolute
 correlation value to display in the plot.}
@@ -35,12 +27,12 @@ complicated. It is recommended to filter the correlations using the \code{thresh
 argument to simplify the visualisation.
 }
 \examples{
-corrChord(data = mtcars,
-          method = 'pearson',
+cm <- cor(mtcars)
+
+corrChord(mat = cm,
           threshold = 0.8)
 
-corrChord(data = mtcars,
-          method = 'pearson',
+corrChord(mat = cm,
           threshold = 0.8,
           circle = TRUE)
 
