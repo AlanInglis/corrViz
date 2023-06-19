@@ -5,9 +5,7 @@
 #' This function generates a Sankey diagram for a given data frame, correlation method, and
 #' correlation threshold, with an optional colour parameter.
 #'
-#' @param data A data frame containing the input data for calculating correlations.
-#' @param method A character string specifying the correlation method. One of
-#'   "pearson", "kendall", or "spearman". Default is "pearson".
+#' @param mat A square correlation matrix to visualise.
 #' @param threshold A numeric value indicating the minimum absolute correlation value to
 #'  include in the diagram.
 #'                  Default is 0 (include all correlations).
@@ -19,18 +17,18 @@
 #' @return A plotly Sankey diagram object.
 #'
 #' @examples
-#' corrSankey(data = mtcars, method = 'pearson', threshold = 0.6)
-#' corrSankey(data = mtcars, method = 'pearson', threshold = 0.8, colour = TRUE)
+#' cm <- cor(mtcars)
+#' corrSankey(mat = cm, threshold = 0.6)
+#' corrSankey(mat = cm, threshold = 0.8, colour = TRUE)
 #'
 #' @export
 
 
-corrSankey <- function(data,
-                       method = c("pearson", "kendall", "spearman"),
+corrSankey <- function(mat,
                        threshold = 0,
                        colour = FALSE){
 
-  correlation_matrix <- cor(data, method = method)
+  correlation_matrix <- mat #cor(data, method = method)
 
   # Create a data frame of correlations above a certain threshold
 
@@ -81,9 +79,6 @@ corrSankey <- function(data,
 
   return(p)
 }
-
-corrSankey(mtcars, method = 'p', threshold = 0.6)
-corrSankey(mtcars, method = 'p', threshold = 0.8, colour = T)
 
 
 

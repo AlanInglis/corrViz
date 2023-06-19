@@ -3,9 +3,7 @@
 #' This function creates a solar system plot of correlations between
 #' variables in a dataset.
 #'
-#' @param data A dataframe containing the data to be analyzed.
-#' @param method A character string specifying the correlation method. One of
-#'   "pearson", "kendall", or "spearman". Default is "pearson".
+#' @param mat A square correlation matrix to visualise.
 #' @param sun A character string specifying the column name in the dataset to
 #' be treated as the 'sun' in the solar system plot.
 #'
@@ -26,16 +24,15 @@
 #' @import ggplot2
 #'
 #' @examples
-#' corrSolar(data = mtcars,
-#'           method = 'pearson',
+#' cm <- cor(mtcars)
+#' corrSolar(mat = cm,
 #'           sun = 'mpg')
 #'
 #'
 #' @export
 
 
-corrSolar <- function(data,
-                      method = c("pearson", "kendall", "spearman"),
+corrSolar <- function(mat,
                       sun = NULL){
 
 
@@ -43,7 +40,7 @@ corrSolar <- function(data,
   r <- x <- y <- id <- orbit_radius <- angle <- nam <- nam2 <- col_name <- NULL
 
   # Calculate correlation matrix
-  cor_matrix <- cor(data, method = method)
+  cor_matrix <- mat #cor(data, method = method)
   diag(cor_matrix) <- NA
 
   # Convert matrix to data frame

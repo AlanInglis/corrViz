@@ -3,9 +3,7 @@
 #' This function creates a either a static or interactive
 #' bar plot of correlations between variables in a dataset.
 #'
-#' @param data A dataframe containing the data to be analyzed.
-#' @param method A character string specifying the correlation method. One of
-#'   "pearson", "kendall", or "spearman". Default is "pearson".
+#' @param mat A square correlation matrix to visualise.
 #' @param interactive A logical value specifying whether to create an interactive ggplotly plot,
 #' default is TRUE
 #' @param pal A colour palette for the bar plot, default is colorRampPalette(c("cornflowerblue", "white", "tomato"))(100).
@@ -21,16 +19,16 @@
 #' @importFrom grDevices colorRampPalette
 #'
 #' @examples
-#' corrBarplot(data = mtcars,
-#'             method = 'pearson',
-#'             interactive = TRUE)
+#' cm <- cor(mtcars)
+#'
+#' corrBarplot(mat = cm,
+#'            interactive = TRUE)
 #'
 #'
 #' @export
 
 
-corrBarplot <-  function(data,
-                         method = c("pearson", "kendall", "spearman"),
+corrBarplot <-  function(mat,
                          interactive = TRUE,
                          pal = colorRampPalette(c("cornflowerblue", 'white', 'tomato'))(100)
                          ){
@@ -39,7 +37,7 @@ corrBarplot <-  function(data,
   # declare global vars
   correlation <- variable1 <- variable2 <- pair <- value <- row_name <- col_name <- NULL
   # get triangular correlations
-  triangle_correlations <- cor(data) * lower.tri(cor(data))
+  triangle_correlations <- (mat) * lower.tri(mat)
 
   # reshape and add name column
   correlations_long <- matrix2long(triangle_correlations)

@@ -2,9 +2,7 @@
 #'
 #' @description Create a correlation grid plot to visualize correlations among the columns of a dataset
 #'
-#' @param data A data.frame, with numeric columns to compute correlations.
-#' @param method A character string, specifying the correlation method,
-#' one of "pearson", "kendall", or "spearman" (default: "pearson").
+#' @param mat A square correlation matrix to visualise.
 #' @param display A character string, specifying the display type,
 #' one of "all", "upper", or "lower" (default: "all").
 #' @param type A character string, specifying the shape of the correlation
@@ -20,24 +18,23 @@
 #' @importFrom purrr pmap
 #'
 #' @examples
-#' data(mtcars)
-#' corr_grid_plot <- corrGrid(data = mtcars,
+#' cm <- cor(mtcars)
+#' corr_grid_plot <- corrGrid(mat = cm,
 #'                            type = 'square')
 #
 #' @export
 
 
-corrGrid <- function(data,
-                    method = c("pearson", "kendall", "spearman"),
-                    display = c('all', 'upper', 'lower'),
-                    type = c('square', 'circle', 'text', 'pie'),
-                    showDiag = 'TRUE',
-                    pal = colorRampPalette(c("darkblue", 'white', 'darkred'))(100)
+corrGrid <- function(mat,
+                     display = c('all', 'upper', 'lower'),
+                     type = c('square', 'circle', 'text', 'pie'),
+                     showDiag = 'TRUE',
+                     pal = colorRampPalette(c("darkblue", 'white', 'darkred'))(100)
 ){
   # Declare global vars
   row_name <- col_name <- correlation <- NULL
   # get correlations
-  correlations <- cor(data, method = method)
+  correlations <- mat #cor(data, method = method)
 
 
   # if (type == "pie" && ((display == "upper" || display == "lower") || showDiag == FALSE)){

@@ -2,9 +2,7 @@
 #'
 #' This function creates a circular plot of correlations between variables in a dataset.
 #'
-#' @param data A dataframe containing the data to be analyzed.
-#' @param method A character string specifying the correlation method. One of
-#'   "pearson", "kendall", or "spearman". Default is "pearson".
+#' @param mat A square correlation matrix to visualise.
 #' @param threshold A numeric value indicating the minimum absolute correlation
 #'  value to display in the plot.
 #' @param ticks A logical value indicating whether to display ticks (TRUE) or not (FALSE),
@@ -22,8 +20,9 @@
 #' @importFrom stats cor
 #'
 #' @examples
-#' corrCircle(data = mtcars,
-#'           method = 'pearson',
+#' cm <- cor(mtcars)
+#'
+#' corrCircle(mat = cm,
 #'           threshold = 0.8)
 #'
 #'
@@ -32,12 +31,11 @@
 
 
 
-corrCircle <- function(data,
-                       method = c("pearson", "kendall", "spearman"),
+corrCircle <- function(mat,
                        threshold = 0,
                        ticks = FALSE) {
   # Compute the correlation matrix
-  cor_matrix <- cor(data, method = method)
+  cor_matrix <- mat #cor(data, method = method)
 
   # Set lower triangular matrix to zero to avoid duplicated links
   cor_matrix[lower.tri(cor_matrix)] <- 0

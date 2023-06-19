@@ -37,9 +37,9 @@
 
 
 corrPairs <- function(data,
-               method = c("pearson", "kendall", "spearman"),
-               interactive = TRUE,
-               col_by = NULL) {
+                      method = c("pearson", "kendall", "spearman"),
+                      interactive = TRUE,
+                      col_by = NULL) {
 
   # declare globals
   cor_fun <- dot_fun <- NULL

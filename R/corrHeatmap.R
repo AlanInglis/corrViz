@@ -2,9 +2,7 @@
 #'
 #' This function creates an interactive heatmap of correlations between variables in a dataset.
 #'
-#' @param data A dataframe containing the data to be analyzed.
-#' @param method A character string specifying the correlation method. One of
-#'   "pearson", "kendall", or "spearman". Default is "pearson".
+#' @param mat A square correlation matrix to visualise.
 #' @param display A character vector specifying which part of the correlation matrix to
 #' display: 'all', 'upper', or 'lower', default is 'all'.
 #' @param reorder A logical value indicating whether to reorder the heatmap based
@@ -24,15 +22,15 @@
 #' @importFrom grDevices colorRampPalette
 #'
 #' @examples
-#' corrHeatmap(data = mtcars,
-#'              method = 'pearson',
-#'              display = 'all')
+#' cm <- cor(mtcars)
+#'
+#' corrHeatmap(mat = cm,
+#'            display = 'all')
 #'
 #'
 #' @export
 
-corrHeatmap <- function(data,
-                        method = c("pearson", "kendall", "spearman"),
+corrHeatmap <- function(mat,
                         display = c('all', 'upper', 'lower'),
                         reorder = TRUE,
                         pal = colorRampPalette(c("darkblue", 'white', 'darkred'))(100)){
@@ -40,7 +38,7 @@ corrHeatmap <- function(data,
   # Declare global vars
   row_name <- col_name <- correlation <- NULL
   # get correlations
-  correlations <- cor(data, method = method)
+  correlations <- mat #cor(data, method = method)
   diag(correlations) <- NA
 
   if(reorder){

@@ -2,9 +2,7 @@
 #'
 #' This function creates a chord plot of correlations between variables in a dataset.
 #'
-#' @param data A dataframe containing the data to be analyzed.
-#' @param method A character string specifying the correlation method. One of
-#'   "pearson", "kendall", or "spearman". Default is "pearson".
+#' @param mat A square correlation matrix to visualise.
 #' @param threshold A numeric value indicating the minimum absolute
 #' correlation value to display in the plot.
 #' @param circle A logical value indicating whether to use a circular
@@ -22,20 +20,19 @@
 #' @import ggraph
 #'
 #' @examples
-#' corrChord(data = mtcars,
-#'           method = 'pearson',
+#' cm <- cor(mtcars)
+#'
+#' corrChord(mat = cm,
 #'           threshold = 0.8)
 #'
-#' corrChord(data = mtcars,
-#'           method = 'pearson',
+#' corrChord(mat = cm,
 #'           threshold = 0.8,
 #'           circle = TRUE)
 #'
 #' @export
 #'
 
-corrChord <- function(data,
-                      method = c("pearson", "kendall", "spearman"),
+corrChord <- function(mat,
                       threshold = 0,
                       circle = FALSE) {
 
@@ -43,7 +40,7 @@ corrChord <- function(data,
   value <- NULL
 
   # Compute the correlation matrix
-  cor_matrix <- cor(data, method = method)
+  cor_matrix <- mat #cor(data, method = method)
 
   # Set lower triangular matrix to zero to avoid duplicated links
   cor_matrix[lower.tri(cor_matrix)] <- 0

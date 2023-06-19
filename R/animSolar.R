@@ -3,9 +3,7 @@
 #' This function creates an animated solar system plot of correlations between
 #' variables in a dataset.
 #'
-#' @param data A dataframe containing the data to be analyzed.
-#' @param method A character string specifying the correlation method. One of
-#'   "pearson", "kendall", or "spearman". Default is "pearson".
+#' @param mat A square correlation matrix to visualise.
 #' @param sun A character string specifying the column name in the dataset to be treated
 #' as the 'sun' in the solar system plot.
 #' @param export A logical value specifying whether to export the animation as a GIF file, default is FALSE.
@@ -45,15 +43,15 @@
 #' @import ggplot2
 #'
 #' @examples
-#' animSolar(data = mtcars,
-#'           method = 'pearson',
+#' cm <- cor(mtcars)
+#'
+#' animSolar(mat = cm,
 #'           sun = 'mpg',
 #'           export = FALSE,
 #'           num_frames = 25)
 #'
 #' @export
-animSolar <- function(data,
-                      method = c("pearson", "kendall", "spearman"),
+animSolar <- function(mat,
                       sun = NULL,
                       export = FALSE,
                       num_frames = 100,
@@ -71,7 +69,7 @@ animSolar <- function(data,
   colr <- col_name <- NULL
 
   # Calculate correlation matrix
-  cor_matrix <- cor(data, method = method)
+  cor_matrix <- mat #cor(data, method = method)
   diag(cor_matrix) <- NA
 
   # Convert matrix to data frame
@@ -110,7 +108,7 @@ animSolar <- function(data,
 
   # create animated plot
   nframes <- num_frames
-  seqFrames <- (ncol(data) - 1)
+  seqFrames <- (ncol(mat) - 1)
 
   # ang <- rep(seq(0, 2 * pi, length.out = seqFrames), 10)
   ang <- rep(seq(0, 2 * pi, length.out = nframes), seqFrames)

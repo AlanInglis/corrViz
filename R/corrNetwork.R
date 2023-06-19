@@ -2,9 +2,7 @@
 #'
 #' Creates an interactive Correlation Network Visualization
 #'
-#' @param data A data frame or matrix containing the input data for the correlation calculation.
-#' @param method A character string specifying the correlation method. One of
-#'   "pearson", "kendall", or "spearman". Default is "pearson".
+#' @param mat A square correlation matrix to visualise.
 #' @param threshold A numeric value indicating the minimum absolute correlation
 #'  value to display in the plot.
 #' @param layout Any \code{igraph} layout to display the network.
@@ -31,17 +29,20 @@
 #' @importFrom stats na.omit
 #'
 #' @examples
-#' corrNetwork(data = iris[,1:4], threshold = 0.5)
+#' ci <- cor(iris[1:4])
+#' corrNetwork(mat = ci, threshold = 0.5)
 #'
-#' corrNetwork(data = mtcars,
+#' # Another example
+#' cm <- cor(mtcars)
+#'
+#' corrNetwork(mat = cm,
 #'            threshold = 0.8,
 #'            method = "pearson",
 #'            layout = 'layout_on_grid',
 #'            physics = FALSE)
 #' @export
 
-corrNetwork <- function(data,
-                        method = c("pearson", "kendall", "spearman"),
+corrNetwork <- function(mat,
                         threshold = 0,
                         layout = "layout_nicely",
                         width = "100%",
@@ -56,7 +57,7 @@ corrNetwork <- function(data,
   }
 
   # Calculate correlation matrix
-  cor_matrix <- cor(data, method = method)
+  cor_matrix <- mat #cor(data, method = method)
   diag(cor_matrix) <- NA
 
   # Convert matrix to data frame
@@ -82,7 +83,7 @@ corrNetwork <- function(data,
   new_df <- na.omit(df_data)
   new_df <- subset(new_df, !duplicated(value)) #NOTE POSSIBLE ERROR HERE IF  2 VARS HAVE SAME COR
 
-  nodes <- data.frame(id = 1:length(names(data)), label = names(data))
+  nodes <- data.frame(id = 1:length(colnames(mat)), label = colnames(mat))
 
   # edges <- new_df |>
   #   filter(value < -threshold | value > threshold) |>
