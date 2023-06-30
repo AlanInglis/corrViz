@@ -7,8 +7,7 @@
 #'
 #' @param mat A square correlation matrix to visualise.
 #' @param threshold A numeric value indicating the minimum absolute correlation value to
-#'  include in the diagram.
-#'                  Default is 0 (include all correlations).
+#' include in the diagram. Default is 0 (include all correlations).
 #' @param colour A logical value indicating whether to color the links based on positive or
 #' negative correlation. Default is FALSE (links are grey).
 #'
@@ -28,7 +27,7 @@ corrSankey <- function(mat,
                        threshold = 0,
                        colour = FALSE){
 
-  correlation_matrix <- mat #cor(data, method = method)
+  correlation_matrix <- mat
 
   # Create a data frame of correlations above a certain threshold
 

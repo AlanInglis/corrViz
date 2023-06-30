@@ -10,8 +10,7 @@ corrSankey(mat, threshold = 0, colour = FALSE)
 \item{mat}{A square correlation matrix to visualise.}
 
 \item{threshold}{A numeric value indicating the minimum absolute correlation value to
-include in the diagram.
-                Default is 0 (include all correlations).}
+include in the diagram. Default is 0 (include all correlations).}
 
 \item{colour}{A logical value indicating whether to color the links based on positive or
 negative correlation. Default is FALSE (links are grey).}

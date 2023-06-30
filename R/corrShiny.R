@@ -17,15 +17,7 @@
 #'
 #' @return A Shiny app that displays a scatter plot and the correlation coefficient between two variables.
 #'
-#' @examples
-#' \dontrun{
-#' data(mtcars)
-#' corrShiny(data = mtcars,
-#'           x_var = "wt",
-#'           y_var = "mpg",
-#'           color_var = "cyl",
-#'           size_var = "hp")
-#'}
+#'
 #' @export
 
 corrShiny <- function(data, x_var, y_var, color_var = NULL, size_var = NULL, correlation_method = "pearson") {

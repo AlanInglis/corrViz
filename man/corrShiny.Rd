@@ -34,13 +34,3 @@ Correlation Explorer Shiny App. This function creates
 a Shiny application to explore the correlation between
 variables in a given dataset.
 }
-\examples{
-\dontrun{
-data(mtcars)
-corrShiny(data = mtcars,
-          x_var = "wt",
-          y_var = "mpg",
-          color_var = "cyl",
-          size_var = "hp")
-}
-}

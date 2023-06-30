@@ -4,7 +4,7 @@ Title: Visualise Correlations
 Version: 0.1.0
 Author: Alan Inglis
 Maintainer: Alan Inglis <alan.n.inglis@gmail.com>
-Description: A suite of plots for visualising correlations. 
+Description: An investigative tool designed to help users visualize correlations between variables in their datasets. This package aims to provide an easy and effective way to explore and visualize these correlations, making it easier to interpret and communicate results.
 License: GPL (>=2)
 Encoding: UTF-8
 Imports: 
