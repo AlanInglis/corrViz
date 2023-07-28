@@ -5,7 +5,6 @@ vignette: >
   %\VignetteIndexEntry{corrViz}
   %\VignetteEncoding{UTF-8}
   %\VignetteEngine{knitr::rmarkdown}
-runtime: shiny
 ---
 
 ```{r, include = FALSE}
@@ -34,7 +33,7 @@ img {
 <!-- badges: end -->
 
 
-`corrViz` is an R package designed to help users visualize correlations between variables in their datasets. With the ever-growing size and complexity of datasets, it is crucial to have a clear understanding of the relationships between variables. This package aims to provide an easy and effective way to explore and visualize these correlations, making it easier to interpret and communicate results.
+`corrViz` is an R-package designed to help users visualize correlations between variables in their datasets. With the ever-growing size and complexity of datasets, it is crucial to have a clear understanding of the relationships between variables. This package aims to provide an easy and effective way to explore and visualize these correlations, making it easier to interpret and communicate results.
 
 This vignette will introduce you to the main features and functions of the `corrViz` package, guiding you through the process of creating visually appealing and informative correlation plots. By the end of this tutorial, you should be able to use `corrViz` to create various types of correlation visualizations, customize their appearance, and gain insights into the relationships within your dataset.
 
