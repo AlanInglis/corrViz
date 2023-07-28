@@ -1,7 +1,5 @@
 ^.*\.Rproj$
 ^\.Rproj\.user$
-^docs$
-^doc$
 ^badge$
 ^README\.Rmd$
 
@@ -13,9 +11,9 @@
   ^badge$
   ^cran-comments\.md$
   ^CRAN-RELEASE$
-  ^_pkgdown\.yml$
 
-  ^pkgdown$
+
+
   ^paperCodeData$
   ^CRAN-SUBMISSION$
   ^RJvivid$
