@@ -35,12 +35,4 @@ library(corrViz)
 
 The `corrViz` package offers several visualization methods to help you
 explore and communicate correlations effectively, with an emphasis on
-interactivity. Some of the available methods include:
-
-- Heatmaps
-- Networks
-- Shiny applications
-- Scatterplot matrices
-- Bar plots
-- Chord diagrams
-- and more!!
+interactivity.
