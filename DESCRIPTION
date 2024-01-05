@@ -7,6 +7,8 @@ Maintainer: Alan Inglis <alan.n.inglis@gmail.com>
 Description: An investigative tool designed to help users visualize correlations between variables in their datasets. This package aims to provide an easy and effective way to explore and visualize these correlations, making it easier to interpret and communicate results.
 License: GPL (>=2)
 Encoding: UTF-8
+URL: https://alaninglis.github.io/corrViz/, https://github.com/AlanInglis/corrViz
+BugReports: https://github.com/AlanInglis/corrViz/issues
 Imports: 
     ggplot2,
     stats,
